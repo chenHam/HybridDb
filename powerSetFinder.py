@@ -36,7 +36,6 @@ def stringToArrayConverter(values):
     for v in values:
         array.append(stringToArrayOfInts(v))
         
-    print("Number of variabels: {}".format(len(array)))
     print(array)
     
       
