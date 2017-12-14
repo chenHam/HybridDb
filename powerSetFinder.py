@@ -35,9 +35,29 @@ def stringToArrayConverter(values):
     array=[]
     for v in values:
         array.append(stringToArrayOfInts(v))
-        
-    print(array)
-    
-      
+    return array
+
+
+#THIS FUNCTION GET LIST OF SET OF A NUMBERS AND THE NAMES, AND RETURN THE SET WITH THE NAMES
+def numberListToNamesList(numList,namesList):
+    newList=[]
+    size=len(namesList)
+    for i in range(0,size):
+        if numList[i]==1:
+            newList.append(namesList[i])
+    return newList
+
+#THIS FUNCTION GET LIST AND RETURN THE POWER SET
+def listToPowerset(list):
+    finalList=[]
+    listSize=len(list)
+    powerSetListAsNumbers=stringToArrayConverter(powerSetInit(listSize))
+    for l in powerSetListAsNumbers:
+        finalList.append(numberListToNamesList(l,list))
+    #remove the empty var
+    finalList.remove([])
+    return finalList
+
 #MAIN RUN PROGRAM
-stringToArrayConverter(powerSetInit(5))
+powerSet=listToPowerset(('name','age','weight'))
+print (powerSet)
