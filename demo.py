@@ -1,16 +1,25 @@
 import pymysql;
 import time;
+import  json;
 import powerSetFinder as psf;
 import insertResult as ir;
 
 
 def openConnection():
-    conn = pymysql.connect(host='193.106.55.134', port=3306, user='root', password='root', db='northwind')
+    ip=getFromConfiguration("server","host_ip")
+    port=getFromConfiguration("server","port")
+    user=getFromConfiguration("server","user")
+    password=getFromConfiguration("server","password")
+    db=getFromConfiguration("server","db")
+    conn = pymysql.connect(host=ip, port=port, user=user, password=password, db=db)
 
     return conn
 
 def closeConnection(con):
     con.close()
+
+def getFromConfiguration(name,var):
+    return config.get(name)[var]
 
 def getTableNames():
     conn = openConnection()
@@ -46,6 +55,9 @@ def getQueryTime(query):
     total = t1 - t0
     return total
 
+
+with open('configurationFile') as f:
+    config=json.load(f)
 
 conn = openConnection()
 cursor = conn.cursor()
