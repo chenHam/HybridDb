@@ -5,6 +5,8 @@ import powerSetFinder as psf;
 import insertResult as ir;
 import uuid;
 
+
+uid = uuid.uuid4()
 def openConnection():
     ip=getFromConfiguration("server","host_ip")
     port=getFromConfiguration("server","port")
@@ -85,11 +87,12 @@ for tableName in tableNames:
 
             query = 'SELECT ' + colsJoined + ' FROM northwind.' + tableNameStr + ';'
             print('query: ' + query)
-            uid = uuid.uuid3(uuid.NAMESPACE_OID,query)
+            #uid = uuid.uuid3(uuid.NAMESPACE_OID,query)
 
             conn = openConnection()
             cursor = conn.cursor()
             t0 = time.time()
+            t0ToStr = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(t0))
             cursor.execute(query)
             t1 = time.time()
 
@@ -97,7 +100,6 @@ for tableName in tableNames:
             print("done with cols, time: " + str(total))
 
             totalToStr = str(total)
-            t0ToStr = str(t0)
             uidToStr = str(uid)
             query1 = ir.insertResult(tableNameStr, colsJoined, totalToStr, t0ToStr, uidToStr)
             cursor.execute(query1)
