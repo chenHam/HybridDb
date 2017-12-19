@@ -3,7 +3,7 @@ import time;
 import  json;
 import powerSetFinder as psf;
 import insertResult as ir;
-
+import uuid;
 
 def openConnection():
     ip=getFromConfiguration("server","host_ip")
@@ -92,6 +92,7 @@ for tableName in tableNames:
 
             query = 'SELECT ' + colsJoined + ' FROM northwind.' + tableNameStr + ';'
             print('query: ' + query)
+            uid = uuid.uuid3(uuid.NAMESPACE_OID,query)
 
             conn = openConnection()
             cursor = conn.cursor()
@@ -103,7 +104,9 @@ for tableName in tableNames:
             print("done with cols, time: " + str(total))
 
             totalToStr = str(total)
-            query1 = ir.insertResult(tableNameStr, colsJoined, totalToStr)
+            t0ToStr = str(t0)
+            uidToStr = str(uid)
+            query1 = ir.insertResult(tableNameStr, colsJoined, totalToStr, t0ToStr, uidToStr)
             cursor.execute(query1)
             conn.commit()
             closeConnection(conn)
