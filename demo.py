@@ -21,7 +21,14 @@ def closeConnection(con):
     con.close()
 
 def getFromConfiguration(name,var):
-    return config.get(name)[var]
+    try:
+        return config.get(name)[var]
+    except Exception as e:
+        e1 = str(e)
+        print("Exception: " + e1)
+        return ""
+
+
 
 def getTableNames():
     conn = openConnection()
