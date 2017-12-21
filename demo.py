@@ -1,26 +1,39 @@
 import pymysql;
+import cql;
 import time;
-import  json;
+import json;
+
+import sys
+
 import powerSetFinder as psf;
 import insertResult as ir;
 import uuid;
 
-
+# -----------------------------------------------------
+# FUNCTIONS
+# -----------------------------------------------------
 uid = uuid.uuid4()
-def openConnection():
-    ip=getFromConfiguration("server","host_ip")
-    port=getFromConfiguration("server","port")
-    user=getFromConfiguration("server","user")
-    password=getFromConfiguration("server","password")
-    db=getFromConfiguration("server","db")
-    conn = pymysql.connect(host=ip, port=port, user=user, password=password, db=db)
+dataBase=sys.argv[1]
 
+
+def openConnection(dataBase):
+    ip = getFromConfiguration("SQLServer", "host_ip")
+    port = getFromConfiguration("SQLServer", "port")
+    user = getFromConfiguration("SQLServer", "user")
+    password = getFromConfiguration("SQLServer", "password")
+    db = getFromConfiguration("SQLServer", "db")
+    if dataBase == "SQL":
+        conn = pymysql.connect(host=ip, port=port, user=user, password=password, db=db)
+    if dataBase == "CQL":
+        conn = cql.connect(host=ip, port=port, user=user, password=password, db=db)
     return conn
+
 
 def closeConnection(con):
     con.close()
 
-def getFromConfiguration(name,var):
+
+def getFromConfiguration(name, var):
     try:
         return config.get(name)[var]
     except Exception as e:
@@ -29,9 +42,8 @@ def getFromConfiguration(name,var):
         return ""
 
 
-
-def getTableNames():
-    conn = openConnection()
+def getTableNames(DB):
+    conn = openConnection(DB)
     cursor = conn.cursor()
     cursor.execute("select table_name from information_schema.tables where table_schema = 'northwind'")
     tableNames = cursor.fetchall()
@@ -39,9 +51,9 @@ def getTableNames():
 
     return tableNames
 
-def getTableColumnNames(tableName):
 
-    conn = openConnection()
+def getTableColumnNames(tableName):
+    conn = openConnection(dataBase)
     cursor = conn.cursor()
     query = "select column_name from information_schema.columns where table_name = '" + tableName + "'"
     cursor.execute(query)
@@ -50,11 +62,13 @@ def getTableColumnNames(tableName):
 
     return columns
 
+
 def getColumnsPowerSet(columns):
     return psf.listToPowerset(columns)
 
+
 def getQueryTime(query):
-    con = openConnection()
+    con = openConnection(dataBase)
     cursor = con.cursor()
     t0 = time.time()
     cursor.execute(query)
@@ -65,65 +79,70 @@ def getQueryTime(query):
     return total
 
 
-with open('configurationFile') as f:
-    config=json.load(f)
-
-conn = openConnection()
-cursor = conn.cursor()
-cursor.execute("select table_name from information_schema.tables where table_schema = 'northwind'")
-tableNames = cursor.fetchall()
-closeConnection(conn)
-
-for tableName in tableNames:
-    tableNameStr = tableName[0]
-    print(tableNameStr)
-
-    conn = openConnection()
+# -----------------------------------------------------
+# THE MAIN PROGRAM
+# -----------------------------------------------------
+def main(argv):
+    DBkind=argv
+    conn = openConnection(DBkind)
     cursor = conn.cursor()
-    query = "select column_name from information_schema.columns where table_name = '" + tableNameStr + "'"
-    cursor.execute(query)
+    cursor.execute("select table_name from information_schema.tables where table_schema = 'northwind'")
+    tableNames = cursor.fetchall()
     closeConnection(conn)
 
-    tableColumns = [i[0] for i in cursor.fetchall()]
-    columnsPowerset = psf.listToPowerset(tableColumns)
+    for tableName in tableNames:
+        tableNameStr = tableName[0]
+        print(tableNameStr)
 
-    for (powerset) in columnsPowerset:
-        try:
-            colsJoined = ', '.join(powerset)
-            print("cols: " + colsJoined)
+        conn = openConnection(DBkind)
+        cursor = conn.cursor()
+        query = "select column_name from information_schema.columns where table_name = '" + tableNameStr + "'"
+        cursor.execute(query)
+        closeConnection(conn)
 
-            query = 'SELECT ' + colsJoined + ' FROM northwind.' + tableNameStr + ';'
-            print('query: ' + query)
-            #uid = uuid.uuid3(uuid.NAMESPACE_OID,query)
+        tableColumns = [i[0] for i in cursor.fetchall()]
+        columnsPowerset = psf.listToPowerset(tableColumns)
 
-            conn = openConnection()
-            cursor = conn.cursor()
-            t0 = time.time()
-            t0ToStr = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(t0))
-            cursor.execute(query)
-            t1 = time.time()
+        for (powerset) in columnsPowerset:
+            try:
+                colsJoined = ', '.join(powerset)
+                print("cols: " + colsJoined)
 
-            total = t1 - t0
-            print("done with cols, time: " + str(total))
+                query = 'SELECT ' + colsJoined + ' FROM northwind.' + tableNameStr + ';'
+                print('query: ' + query)
+                # uid = uuid.uuid3(uuid.NAMESPACE_OID,query)
 
-            totalToStr = str(total)
-            uidToStr = str(uid)
-            query1 = ir.insertResult(tableNameStr, colsJoined, totalToStr, t0ToStr, uidToStr)
-            cursor.execute(query1)
-            conn.commit()
-            closeConnection(conn)
+                conn = openConnection(DBkind)
+                cursor = conn.cursor()
+                t0 = time.time()
+                t0ToStr = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(t0))
+                cursor.execute(query)
+                t1 = time.time()
 
-        except Exception as e:
-            e1 = str(e)
-            print("exception: " + e1)
+                total = t1 - t0
+                print("done with cols, time: " + str(total))
+
+                totalToStr = str(total)
+                uidToStr = str(uid)
+                query1 = ir.insertResult(tableNameStr, colsJoined, totalToStr, t0ToStr, uidToStr)
+                cursor.execute(query1)
+                conn.commit()
+                closeConnection(conn)
+
+            except Exception as e:
+                e1 = str(e)
+                print("exception: " + e1)
+
+                print('')
+
+        print("done with current table")
+    print ("done")
+    print ('')
 
 
-            print('')
-
-    print("done with current table")
-print ("done")
-print ('')
-
-
-
-
+# -----------------------------------------------------
+# RUN THIS
+# -----------------------------------------------------
+with open('configurationFile') as f:
+    config = json.load(f)
+main(dataBase)
