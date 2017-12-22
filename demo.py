@@ -12,8 +12,6 @@ import uuid;
 # -----------------------------------------------------
 # FUNCTIONS
 # -----------------------------------------------------
-uid = uuid.uuid4()
-dataBase=sys.argv[1]
 
 
 def openConnection(dataBase):
@@ -145,4 +143,6 @@ def main(argv):
 # -----------------------------------------------------
 with open('configurationFile') as f:
     config = json.load(f)
+uid = uuid.uuid4()
+dataBase=sys.argv[1]
 main(dataBase)
