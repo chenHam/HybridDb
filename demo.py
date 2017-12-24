@@ -1,9 +1,10 @@
 import pymysql;
-import cql;
+#import cassandra;
 import time;
 import json;
 
-import sys
+import sys;
+
 
 import powerSetFinder as psf;
 import insertResult as ir;
@@ -15,15 +16,15 @@ import uuid;
 
 
 def openConnection(dataBase):
-    ip = getFromConfiguration("SQLServer", "host_ip")
-    port = getFromConfiguration("SQLServer", "port")
-    user = getFromConfiguration("SQLServer", "user")
-    password = getFromConfiguration("SQLServer", "password")
-    db = getFromConfiguration("SQLServer", "db")
+    ip = getFromConfiguration("server", "host_ip")
+    port = getFromConfiguration("server", "port")
+    user = getFromConfiguration("server", "user")
+    password = getFromConfiguration("server", "password")
+    db = getFromConfiguration("server", "db")
     if dataBase == "SQL":
         conn = pymysql.connect(host=ip, port=port, user=user, password=password, db=db)
-    if dataBase == "CQL":
-        conn = cql.connect(host=ip, port=port, user=user, password=password, db=db)
+    #if dataBase == "CQL":
+        #conn = cql.connect(host=ip, port=port, user=user, password=password, db=db)
     return conn
 
 
@@ -122,7 +123,7 @@ def main(argv):
 
                 totalToStr = str(total)
                 uidToStr = str(uid)
-                query1 = ir.insertResult(tableNameStr, colsJoined, totalToStr, t0ToStr, uidToStr)
+                query1 = ir.insertResult(tableNameStr, colsJoined, totalToStr, t0ToStr, uidToStr, DBkind)
                 cursor.execute(query1)
                 conn.commit()
                 closeConnection(conn)
@@ -141,8 +142,14 @@ def main(argv):
 # -----------------------------------------------------
 # RUN THIS
 # -----------------------------------------------------
+
+#new cassandra driver usage: https://datastax.github.io/python-driver/getting_started.html
+
 with open('configurationFile') as f:
     config = json.load(f)
 uid = uuid.uuid4()
 dataBase=sys.argv[1]
+
+#print (cassandra.__version__)
+
 main(dataBase)
