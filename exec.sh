@@ -8,6 +8,6 @@ do
     echo $i
     #exectue python script
     printf "test"
-    python ./demo.py
+    python ./demo.py SQL
 done
 

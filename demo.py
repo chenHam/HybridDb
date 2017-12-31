@@ -16,11 +16,11 @@ import uuid;
 
 
 def openConnection(dataBase):
-    ip = getFromConfiguration("server", "host_ip")
-    port = getFromConfiguration("server", "port")
-    user = getFromConfiguration("server", "user")
-    password = getFromConfiguration("server", "password")
-    db = getFromConfiguration("server", "db")
+    ip = getFromConfiguration(dataBase, "host_ip")
+    port = getFromConfiguration(dataBase, "port")
+    user = getFromConfiguration(dataBase, "user")
+    password = getFromConfiguration(dataBase, "password")
+    db = getFromConfiguration(dataBase, "db")
     if dataBase == "SQL":
         conn = pymysql.connect(host=ip, port=port, user=user, password=password, db=db)
     #if dataBase == "CQL":

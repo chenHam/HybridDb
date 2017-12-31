@@ -1,11 +1,19 @@
 {
-  "server":
+  "SQL":
   {
     "host_ip":"193.106.55.134",
     "port":3306,
     "user": "root",
     "password": "root",
     "db": "northwind"
+  },
+    "CQL":
+  {
+    "host_ip":"",
+    "port":"",
+    "user": "",
+    "password": "",
+    "db": ""
   }
 }
 
