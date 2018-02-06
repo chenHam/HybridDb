@@ -1,6 +1,6 @@
-
 # I got query, for example- select * from df where id=1
-# The function should return list of two lists: the first list will incluse the eses objests of the select part, the second will include the where part
+# The function should return list of three lists: the first list will include the table name,
+# the second includes selects objests , the third will include the where part
 # The objects are:id, name,year,grapes,country,region,description,picture (total - 8)
 
 def listOfObjectsToBinaryList(listToConvert,objectList):
