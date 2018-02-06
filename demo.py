@@ -1,5 +1,5 @@
 import pymysql;
-#import cassandra;
+from cassandra.cluster import Cluster
 import time;
 import json;
 
@@ -23,8 +23,9 @@ def openConnection(dataBase):
     db = getFromConfiguration(dataBase, "db")
     if dataBase == "SQL":
         conn = pymysql.connect(host=ip, port=port, user=user, password=password, db=db)
-    #if dataBase == "CQL":
-        #conn = cql.connect(host=ip, port=port, user=user, password=password, db=db)
+    if dataBase == "CQL":
+        cluster = Cluster([ip], port=port)
+        conn = cluster.connect()
     return conn
 
 
@@ -84,6 +85,14 @@ def getQueryTime(query):
 def main(argv):
     DBkind=argv
     conn = openConnection(DBkind)
+
+    conn.set_keyspace('test')
+
+    rows = conn.execute('SELECT * FROM test.test2')
+    for user_row in rows:
+        print(user_row.id)
+
+
     cursor = conn.cursor()
     cursor.execute("select table_name from information_schema.tables where table_schema = 'northwind'")
     tableNames = cursor.fetchall()

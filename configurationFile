@@ -7,13 +7,12 @@
     "password": "root",
     "db": "northwind"
   },
-    "CQL":
-  {
-    "host_ip":"",
-    "port":"",
-    "user": "",
-    "password": "",
-    "db": ""
+  "CQL":{
+    "host_ip":"193.106.55.134",
+    "port":9042,
+    "user": "root",
+    "password": "root",
+    "db": "test"
   }
 }
 
