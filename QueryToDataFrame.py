@@ -25,7 +25,7 @@ del df['x']
 
 df.to_csv("DataFrame.csv")
 
-
+print(df)
 conn.close()
 
 

@@ -1,4 +1,3 @@
 ,tableName,select_id,select_name,select_year,select_grapes,select_country,select_region,select_description,select_picture,where_id,where_name,where_year,where_grapes,where_country,where_region,where_description,where_picture,runningTime
-0,0,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,1,1
-1,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,2
-2,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,3
+0,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0.000199
+1,0,1,0,0,0,1,1,0,0,1,0,0,0,0,0,0,0,0.000758
