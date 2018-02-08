@@ -51,6 +51,7 @@ data = []
 # distinctQuery='select min(RunTime),Query from df group by Query'
 # df=pysql(distinctQuery)
 for i in df.values:
+    i[1]=i[1].lower()
     if 'select' in i[1] and 'from' in i[1]:
         reasult=queryToRowConverter(i[1],objectsList)
         reasult.append(i[0])
