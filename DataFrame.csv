@@ -1,17 +1,13 @@
 ,RunTime,Query
-0,0.000070,wineSELECT * FROM winecellar
-1,0.000109,"SELECT * FROM winecellar
-LIMIT 0, 1000"
-2,0.000758,"SELECT name, year, grapes, country, region, description, picture
-FROM `winecellar`.`wine`
-LIMIT 0, 1000"
-3,0.000287,SELECT * FROM wine
-4,0.000213,SELECT * FROM wine
-5,0.000277,SELECT * FROM wine
-6,0.000286,SELECT * FROM wine
-7,0.000407,SELECT * FROM wine
-8,0.000204,SELECT * FROM wine
-9,0.000199,SELECT * FROM wine
-10,0.000309,SELECT * FROM wine
-11,0.000201,SELECT * FROM wine
-12,0.000377,SELECT * FROM wine
+0,0.000758,"select id, country, region from df where id=5"
+1,0.000287,SELECT * from wine
+2,0.000213,select * FROM wine
+3,0.000277,select * from wine
+4,0.000286,select * from wine
+5,0.000407,select * from wine
+6,0.000204,select * from wine
+7,0.000199,select * from wine
+8,0.000309,select * from wine
+9,0.000201,select * from wine
+10,0.000377,select * from wine
+11,0.000678,select * from wine

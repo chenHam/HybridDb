@@ -22,15 +22,15 @@ def queryToRowConverter(query,objectsList):
         convertedSelectList = listOfObjectsToBinaryList(objectsList, objectsList)
     else:
         convertedSelectList=listOfObjectsToBinaryList(selectObjectsList,objectsList)
-
     # PARSE THE WHERE LIST OBJECTS
     whereObjectsList=[]
-    ObjectsList=query.split('where')[1].split("AND")
-    for l in ObjectsList:
-        l=l.split('=')[0]
-        whereObjectsList.append(l)
+    whereCheck=query.split(' ')
+    if 'where' in whereCheck:
+        ObjectsList=query.split('where')[1].split("AND")
+        for l in ObjectsList:
+            l=l.split('=')[0]
+            whereObjectsList.append(l)
     convertedWhereList = listOfObjectsToBinaryList(whereObjectsList, objectsList)
-
     # CONVERTING INTO ONE LIST
     finalList = []
     finalList.append(tableName)
@@ -39,17 +39,25 @@ def queryToRowConverter(query,objectsList):
     return finalList
 
 # RUN
+import pandasql as pdsql
+
+pysql = lambda q: pdsql.sqldf(q, globals())
 tableColumnsNames=["tableName","select_id", "select_name","select_year","select_grapes","select_country","select_region","select_description","select_picture","where_id", "where_name","where_year","where_grapes","where_country","where_region","where_description","where_picture","runningTime"]
 objectsList=["id", "name","year","grapes","country","region","description","picture"]
-#TODO :: here I get the df from csv. if I would get him as df just replace the row.
-df = pd.read_csv('tableOfQueriesAndTimes.csv')
+df = pd.read_csv('DataFrame.csv')
+del df['Unnamed: 0']
 data = []
+# Distinct the double queries. - OPTIONAL !!
+# distinctQuery='select min(RunTime),Query from df group by Query'
+# df=pysql(distinctQuery)
 for i in df.values:
-    reasult=queryToRowConverter(i[0],objectsList)
-    reasult.append(i[1])
-    data.append(reasult)
+    i[1]=i[1].lower()
+    if 'select' in i[1] and 'from' in i[1]:
+        reasult=queryToRowConverter(i[1],objectsList)
+        reasult.append(i[0])
+        data.append(reasult)
 finalDf=pd.DataFrame(data,columns=tableColumnsNames)
-# CONVERT THE FEATUERS TO NUMERIC: to translte back: le.transform(THE FETCHER NAME)
+# CONVERT THE FEATUERS TO NUMERIC: to translte back: wde.transform(THE FETCHER NAME)
 translate = lambda row: wde.transform([row])[0]
 wde = preprocessing.LabelEncoder()
 wde.fit(finalDf['tableName'])
@@ -57,9 +65,7 @@ finalDf['tableName'] = finalDf['tableName'].apply(translate)
 finalDf.to_csv("formattedQueries.csv")
 # PRINT DENDROGRAM
 Z = hierarchy.linkage(finalDf, 'ward')
-hierarchy.dendrogram(Z, leaf_rotation=90, leaf_font_size=5, labels=finalDf.index)
+hierarchy.dendrogram(Z, leaf_rotation=90, leaf_font_size=10, labels=finalDf.index)
 # SHOW CLUSTERS
 belongs= fcluster(Z,5,criterion='maxclust')
-print(belongs)
 plt.show()
-
