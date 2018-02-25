@@ -1,0 +1,13 @@
+query,StartTime,RunTime
+select * from df where id=3 AND  picture=null,8:00,43
+select id from df where id=3 AND  picture=null,9:00,46
+select id from df where id=3,10:00,76
+select * from wine,11:00,43
+select * from wine where id=123,8:00,23
+select * from whine where name=""rose""",9:00,54
+insert into wines values (""rose2"" ""1990)",10:00,23
+insert into wine values('rose' 1990  'USA') ,11:00,67
+update wine set name = 'rose3' where id = 1,11:00,53
+update wine set year = 1990 where name = 'rose4',8:00,42
+delete from wine where id = 5,9:00,34
+delete from wine where name = 'rose',10:00,56
