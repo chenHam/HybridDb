@@ -1,10 +1,2 @@
-RunTime,Query
-2,Select * from
-3,Select * from
-1,Select * from
-0.5,update * from
-0.677,update * from
-0.89,update * from
-2,insert into
-1.8,insert
-0.12,insert
+,RunTime,Query
+0,0.000561,select * from winecellar.wine_test_1

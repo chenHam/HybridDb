@@ -44,7 +44,7 @@ list.append([startTime,counterS,counterU,counterI,sum])
 
 
 mainCsv = pd.DataFrame(columns=['RunningTime','A','B','C','SumOfRunning'])
-mainCsv = mainCsv.append(pd.Series(['12:00',counterS,counterU,counterI,sum], index=['RunningTime','A','B','C','SumOfRunning']),ignore_index=True)
+mainCsv = mainCsv.append(pd.Series([startTime,counterS,counterU,counterI,sum], index=['RunningTime','A','B','C','SumOfRunning']),ignore_index=True)
 
 
 mainCsv.to_csv("mainCsv.csv")
