@@ -1,14 +1,9 @@
 import pandas as pd
-import numpy as np
 from sklearn.cluster import KMeans
 import matplotlib.pyplot as plt
 
 
 all_df = pd.read_csv('main.csv')
-
-# all_df['A'] = all_df['A'].astype(np.float64)
-# all_df['B'] = all_df['B'].astype(np.float64)
-# all_df['C'] = all_df['C'].astype(np.float64)
 
 all_df['Total'] = all_df['A'] + all_df['B'] + all_df['C']
 all_df['AverageRunTime'] = (all_df['RunTime'] / all_df['Total'])
