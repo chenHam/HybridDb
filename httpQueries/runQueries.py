@@ -1,6 +1,7 @@
 import time
 import random
-import requests
+
+from pip._vendor import requests
 
 wines = [
   {
@@ -31,7 +32,7 @@ wines = [
     "picture": "margerum.jpg"
   },
   {
-    "name": "OWEN ROE \"EX UMBRIS\"",
+    "name": "OWEN ROE EX UMBRIS",
     "year": "2009",
     "grapes": "Syrah",
     "country": "USA",
@@ -224,7 +225,7 @@ minSecondsToRand=1
 maxSecondsToRand=3
 
 def insertQuery(wine):
-    r = requests.post("http://193.106.55.134:3000/wines", data=wine)
+    r = requests.post("http://193.106.55.134:3001/wines", data=wine)
     print(r.status_code, r.reason)
 
 def getQuery():
@@ -238,6 +239,7 @@ def updateQuery(wine1,wine2):
 
 #THIS FUNCTION RAND A NUMBER, AND THEN SLEEP TO THIS NUMBER OF SECONDS, AND THEN CREATE A QUERY
 def runInsertQuery():
+
     print("Start to run insert queries:")
     while (True):
         time.sleep(random.randint(minSecondsToRand,maxSecondsToRand))
@@ -245,6 +247,14 @@ def runInsertQuery():
         print("Run query...")
         insertQuery(wines[numOfWine])
         print("Finish to run query...")
+
+def insertAllWines():
+  print("Start to insert all wines:")
+  for i in range(0,len(wines)):
+    insertQuery(wines[i])
+    time.sleep(1)
+    print('done insert wine ' + str(i))
+
 
 def runGetQuery():
      print("Start to run get queries:")
@@ -267,9 +277,11 @@ def runUpdateQuery():
 
 
 #RUN
-runGetQuery()
+#runGetQuery()
 
+insertAllWines()
 
+#insertQuery(wines[3])
 
 # TODO : 1. what parameter put in the get query: https://github.com/Refa90/NodeCellar-MySQL
 # TODO : 2. why to put 2 parameters in update query ?
