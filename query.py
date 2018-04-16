@@ -56,9 +56,9 @@ cursor.execute("UPDATE wine\
                 WHERE region = 'California' or region = 'Washington' ")
 conn.commit()
 
-# cursor.execute("INSERT INTO wine (name, year, Country, grapes, region, description, id)\
-#                 VALUES ('Cabernet Sauvignon', '2012', 'Israel', 'red wine grape varieties', 'A', '', 13)")
-# conn.commit()
+cursor.execute("INSERT INTO wine (name, year, Country, grapes, region, description, id)\
+                VALUES ('Cabernet Sauvignon', '2012', 'Israel', 'red wine grape varieties', 'A', '', 13)")
+conn.commit()
 
 # cursor.execute("DELETE FROM wine\
 #                 WHERE year BETWEEN 1900 AND 1999' ")
