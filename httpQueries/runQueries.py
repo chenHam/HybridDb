@@ -231,8 +231,8 @@ def getQuery():
     r = requests.post('http://193.106.55.134:3000/getwines/')
     print(r.status_code)
 
-def updateQuery(wine):
-    r = requests.put(" http://193.106.55.134:3000/wines/", data=wine)
+def updateQuery(wine1,wine2):
+    r = requests.put(" http://193.106.55.134:3000/wines/", data=[wine1,wine2])
     print(r.status_code)
 
 
@@ -259,14 +259,15 @@ def runUpdateQuery():
     print("Start to run update queries:")
     while (True):
         time.sleep(random.randint(minSecondsToRand, maxSecondsToRand))
-        numOfWine = random.randint(0, 23)
+        numOfWine1 = random.randint(0, 23)
+        numOfWine2 = random.randint(0, 23)
         print("Run query...")
-        updateQuery(wines[numOfWine])
+        updateQuery(wines[numOfWine1],wines[numOfWine2])
         print("Finish to run query...")
 
 
 #RUN
-
+runGetQuery()
 
 
 
