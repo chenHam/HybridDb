@@ -1,55 +1,82 @@
 import powerSetFinder as psf;
 import csv;
 import pandas as pd;
+import datetime;
 
-#//,StartTime,RunTime,Query
-df = pd.read_csv('DataFrame.csv', header=None)
-list=[]
+def ortal_main(mainCsv,hour,df):
 
-# TODO change
-startTime='12:00'
-# startTime = df[1]
-listTime=[]
-# for s in startTime:
-#     listTime.append(s)
-# listTime.remove('StartTime')
+    startTime = hour
+    total = df['RunTime'].sum()
+    queries_type = df['QueryType']
 
-total = df[2]
-sum=0
-listsum=[]
+    counterS = 0
+    counterU = 0
+    counterI = 0
 
-for t in total:
-    listsum.append(t)
-listsum.remove('RunTime')
+    for type in queries_type:
+        if type == 0:
+            counterS+=1
+        if type == 1:
+            counterU+=1
+        if type == 2:
+            counterI+=1
 
-query = df[3]
-listquery = []
-for q in query:
-    listquery.append(q)
-listquery.remove("Query")
+    mainCsv = mainCsv.append(pd.Series([startTime, counterS, counterU, counterI, total], index=['RunningTime','A','B','C','SumOfRunning']),ignore_index=True)
+    return mainCsv
 
-counterS=0
-counterU=0
-counterI=0
-for l in listquery:
-    cluster = l.split(" ")
-    if(str(cluster[0]).lower() == 'select'):
-        counterS+=1
-    if(str(cluster[0]).lower() == 'update'):
-        counterU+=1
+def test():
+    for t in total:
+        listsum.append(t)
+    listsum.remove('RunTime')
+
+    query = df[3]
+    listquery = []
+    for q in query:
+        listquery.append(q)
+    listquery.remove("Query")
+
+    counterS=0
+    counterU=0
+    counterI=0
+    for l in listquery:
+        cluster = l.split(" ")
+        if(str(cluster[0]).lower() == 'select'):
+            counterS+=1
+        if(str(cluster[0]).lower() == 'update'):
+            counterU+=1
+        if (str(cluster[0]).lower() == 'insert'):
+           counterI+=1
+
+    for l in listsum:
+        ltoint=float(l)
+        sum+=ltoint
+
+
+def main():
+    mainCsv = pd.DataFrame(columns=['RunningTime', 'A', 'B', 'C', 'SumOfRunning'])
+    df = pd.read_csv('DataFrame1.csv')
+
+    df['QueryType'] = df['Query'].apply(lambda  x: get_query_type(x))
+    df = df[df.QueryType > -1]
+    df = df[['StartTime', 'QueryType', 'RunTime']]
+    hours = df['StartTime'].unique()
+    for hour in hours:
+        new_df = pd.DataFrame()
+        new_df = df.loc[df['StartTime'] == hour]
+        mainCsv = ortal_main(mainCsv,hour, new_df)
+        mainCsv.to_csv("mainCsv.csv", index=False)
+
+
+def get_query_type(query):
+    ret_val = -1
+    cluster = query.split(" ")
+    if (str(cluster[0]).lower() == 'select'):
+        ret_val = 0
+    if (str(cluster[0]).lower() == 'update'):
+        ret_val = 1
     if (str(cluster[0]).lower() == 'insert'):
-       counterI+=1
+        ret_val = 2
 
-for l in listsum:
-    ltoint=float(l)
-    sum+=ltoint
+    return ret_val
 
-list.append([listTime,counterS,counterU,counterI,sum])
-
-
-mainCsv = pd.DataFrame(columns=['RunningTime','A','B','C','SumOfRunning'])
-mainCsv = mainCsv.append(pd.Series([startTime,counterS,counterU,counterI,sum], index=['RunningTime','A','B','C','SumOfRunning']),ignore_index=True)
-
-
-mainCsv.to_csv("mainCsv.csv")
-
+main()

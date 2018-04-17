@@ -1,8 +1,10 @@
 import pymysql
 import pandas as pd
+import datetime
 
 
 conn = pymysql.connect(host="193.106.55.134", port=3306, user='root', password='root', db='winecellar')
+df = pd.DataFrame(columns=['StartTime','RunTime','Query'])
 
 cursor = conn.cursor()
 # cursor.execute("SELECT EVENT_ID, \
@@ -23,13 +25,16 @@ cursor.execute("SELECT DATE_SUB(NOW(), INTERVAL (SELECT VARIABLE_VALUE \
 
 results = cursor.fetchall()
 list = []
+listTime=[]
+listHour=[]
+i=0
 for r in results:
     print(r)
     list.append(r)
 
-df = pd.DataFrame(list, columns=['StartTime','RunTime','Query'])
 
-df.to_csv("DataFrame.csv")
+df = pd.DataFrame(list,columns=['StartTime','RunTime','Query'])
+df.to_csv("DataFrame1.csv")
 
 print(df)
 conn.close()
