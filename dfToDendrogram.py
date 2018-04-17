@@ -54,7 +54,8 @@ for i in df.values:
     i[1]=i[1].lower()
     if 'select' in i[1] and 'from' in i[1]:
         reasult=queryToRowConverter(i[1],objectsList)
-        reasult.append(i[0])
+        FAC=10000
+        reasult.append(i[0]*FAC)
         data.append(reasult)
 finalDf=pd.DataFrame(data,columns=tableColumnsNames)
 # CONVERT THE FEATUERS TO NUMERIC: to translte back: wde.transform(THE FETCHER NAME)
@@ -65,7 +66,7 @@ finalDf['tableName'] = finalDf['tableName'].apply(translate)
 finalDf.to_csv("formattedQueries.csv")
 # PRINT DENDROGRAM
 Z = hierarchy.linkage(finalDf, 'ward')
-hierarchy.dendrogram(Z, leaf_rotation=90, leaf_font_size=10, labels=finalDf.index)
+hierarchy.dendrogram(Z, leaf_rotation=90, leaf_font_size=5, labels=finalDf.index) # to see queries replacw with df.values
 # SHOW CLUSTERS
 belongs= fcluster(Z,5,criterion='maxclust')
 plt.show()

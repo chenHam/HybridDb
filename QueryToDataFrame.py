@@ -29,7 +29,6 @@ listTime=[]
 listHour=[]
 i=0
 for r in results:
-    print(r)
     list.append(r)
 
 
