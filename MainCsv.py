@@ -2,14 +2,19 @@ import powerSetFinder as psf;
 import csv;
 import pandas as pd;
 
-
+#//,StartTime,RunTime,Query
 df = pd.read_csv('DataFrame.csv', header=None)
 list=[]
 
 # TODO change
-# startTime = df[2]
-startTime = '12:00'
-total = df[0]
+startTime='12:00'
+# startTime = df[1]
+listTime=[]
+# for s in startTime:
+#     listTime.append(s)
+# listTime.remove('StartTime')
+
+total = df[2]
 sum=0
 listsum=[]
 
@@ -17,7 +22,7 @@ for t in total:
     listsum.append(t)
 listsum.remove('RunTime')
 
-query = df[1]
+query = df[3]
 listquery = []
 for q in query:
     listquery.append(q)
@@ -38,9 +43,8 @@ for l in listquery:
 for l in listsum:
     ltoint=float(l)
     sum+=ltoint
-# list.append(sum)
 
-list.append([startTime,counterS,counterU,counterI,sum])
+list.append([listTime,counterS,counterU,counterI,sum])
 
 
 mainCsv = pd.DataFrame(columns=['RunningTime','A','B','C','SumOfRunning'])
