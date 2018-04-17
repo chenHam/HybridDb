@@ -2,6 +2,8 @@ import time
 import random
 import requests
 
+
+
 wines = [
   {
     "name": "CHATEAU DE SAINT COSME",
@@ -227,53 +229,31 @@ def insertQuery(wine):
     r = requests.post("http://193.106.55.134:3000/wines", data=wine)
     print(r.status_code, r.reason)
 
-def getQuery():
-    r = requests.post('http://193.106.55.134:3000/getwines/')
-    print(r.status_code)
+def getQuery(wine):
+    r = requests.post('http://193.106.55.134:3000/getwines/',data=wine)
+    print(r.status_code, r.reason)
 
 def updateQuery(wine1,wine2):
-    r = requests.put(" http://193.106.55.134:3000/wines/", data=[wine1,wine2])
+    headers = {'Content-Type': 'application/json'}
+    r = requests.put("http://193.106.55.134:3000/wines/",  data=[])
     print(r.status_code)
 
-
-#THIS FUNCTION RAND A NUMBER, AND THEN SLEEP TO THIS NUMBER OF SECONDS, AND THEN CREATE A QUERY
-def runInsertQuery():
-    print("Start to run insert queries:")
-    while (True):
-        time.sleep(random.randint(minSecondsToRand,maxSecondsToRand))
-        numOfWine=random.randint(0,23)
-        print("Run query...")
-        insertQuery(wines[numOfWine])
-        print("Finish to run query...")
-
-def runGetQuery():
-     print("Start to run get queries:")
-     while (True):
-        time.sleep(random.randint(minSecondsToRand, maxSecondsToRand))
-        numOfWine = random.randint(0, 23)
-        print("Run query...")
-        getQuery()
-        print("Finish to run query...")
 
 def runUpdateQuery():
     print("Start to run update queries:")
     while (True):
-        time.sleep(random.randint(minSecondsToRand, maxSecondsToRand))
+        time.sleep(10)#random.randint(minSecondsToRand, maxSecondsToRand))
         numOfWine1 = random.randint(0, 23)
         numOfWine2 = random.randint(0, 23)
-        print("Run query...")
+        print("Run update query...")
         updateQuery(wines[numOfWine1],wines[numOfWine2])
-        print("Finish to run query...")
+        print("Finish to run update query...")
 
 
 #RUN
-runGetQuery()
-
-
-
-# TODO : 1. what parameter put in the get query: https://github.com/Refa90/NodeCellar-MySQL
-# TODO : 2. why to put 2 parameters in update query ?
-
+for  i in range (0,5):
+  print(i)
+  updateQuery(wines[1],wines[2])
 
 
 

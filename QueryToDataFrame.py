@@ -24,7 +24,6 @@ cursor.execute("SELECT DATE_SUB(NOW(), INTERVAL (SELECT VARIABLE_VALUE \
 results = cursor.fetchall()
 list = []
 for r in results:
-    print(r)
     list.append(r)
 
 df = pd.DataFrame(list, columns=['StartTime','RunTime','Query'])
