@@ -1,6 +1,10 @@
+
 import time
 import random
-import urllib3
+import urllib
+import json
+import requests
+
 
 wines = [
   {
@@ -236,15 +240,10 @@ def updateQuery(wine1,wine2):
     # data = [wine1, wine2]
     # r = requests.put("http://193.106.55.134:3000/wines/",  data=data)
     # print(r.status_code)
-
-    opener = urllib3.build_opener(urllib3.HTTPHandler)
-    request = urllib3.Request('http://193.106.55.134:3000/wines', data=[wine1, wine2])
-    request.add_header('Content-Type', 'application/json')
-    request.get_method = lambda: 'PUT'
-    url = opener.open(request)
-
-    print(url.read())
-
+    header = {'CustomHeader': 'CustomValue'}
+    req = urllib.request.Request(method="PUT",url='http://193.106.55.134:3000/wines/',data=bytes(json.dumps([wine1,wine2]), 'utf-8'))
+    res = urllib.request.urlopen(req, timeout=5)
+    print(res.status,res.reason)
 
 def runUpdateQuery():
     print("Start to run update queries:")
