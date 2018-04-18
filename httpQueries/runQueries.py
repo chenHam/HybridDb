@@ -1,6 +1,6 @@
 import time
 import random
-
+import sys
 from pip._vendor import requests
 
 wines = [
@@ -242,18 +242,41 @@ def updateQuery(wine1,wine2):
 def runUpdateQuery():
     print("Start to run update queries:")
     while (True):
-        time.sleep(10)#random.randint(minSecondsToRand, maxSecondsToRand))
+        time.sleep(random.randint(minSecondsToRand, maxSecondsToRand))
         numOfWine1 = random.randint(0, 23)
         numOfWine2 = random.randint(0, 23)
         print("Run update query...")
         updateQuery(wines[numOfWine1],wines[numOfWine2])
         print("Finish to run update query...")
 
+def runGetQuery():
+  print("Start to run get queries:")
+  while (True):
+    time.sleep( random.randint(minSecondsToRand, maxSecondsToRand))
+    numOfWine1 = random.randint(0, 23)
+    print("Run get query...")
+    getQuery(wines[numOfWine1])
+    print("Finish to run get query...")
+
+def runInsertQuery():
+  print("Start to run insert queries:")
+  while (True):
+    time.sleep(random.randint(minSecondsToRand, maxSecondsToRand))
+    numOfWine1 = random.randint(0, 23)
+    print("Run insert query...")
+    insertQuery(wines[numOfWine1])
+    print("Finish to run insert query...")
 
 #RUN
-#for  i in range (0,5):
-  #print(i)
-updateQuery(wines[1],wines[2])
+#runGetQuery()
+if(sys.argv[1]=="get"):
+  runGetQuery()
+elif(sys.argv[1]=="insert"):
+  runInsertQuery()
+elif(sys.argv[1]=="update"):
+  runUpdateQuery()
+else:
+  print("Unknown command !!")
 
 
 
