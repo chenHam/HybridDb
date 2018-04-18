@@ -236,39 +236,41 @@ def updateQuery(wine1,wine2):
     headers = {'Content-Type': 'application/json'}
     data = [wine1, wine2]
     r = requests.put(url="http://193.106.55.134:3000/wines",  json=data, headers = headers)
-    print(r.status_code)
+    print(r.status_code, r.reason)
 
 
 def runUpdateQuery():
     print("Start to run update queries:")
+    i=0
     while (True):
         time.sleep(random.randint(minSecondsToRand, maxSecondsToRand))
         numOfWine1 = random.randint(0, 23)
         numOfWine2 = random.randint(0, 23)
-        print("Run update query...")
+        print("Run update query number  " + str(i)+"...")
         updateQuery(wines[numOfWine1],wines[numOfWine2])
-        print("Finish to run update query...")
+        i=i+1
 
 def runGetQuery():
   print("Start to run get queries:")
+  i=0
   while (True):
     time.sleep( random.randint(minSecondsToRand, maxSecondsToRand))
     numOfWine1 = random.randint(0, 23)
-    print("Run get query...")
+    print("Run get query number  "+str(i)+"...")
     getQuery(wines[numOfWine1])
-    print("Finish to run get query...")
+    i = i + 1
 
 def runInsertQuery():
   print("Start to run insert queries:")
+  i=0
   while (True):
     time.sleep(random.randint(minSecondsToRand, maxSecondsToRand))
     numOfWine1 = random.randint(0, 23)
-    print("Run insert query...")
+    print("Run insert query number  "+str(i)+"...")
     insertQuery(wines[numOfWine1])
-    print("Finish to run insert query...")
+    i = i + 1
 
 #RUN
-#runGetQuery()
 if(sys.argv[1]=="get"):
   runGetQuery()
 elif(sys.argv[1]=="insert"):
