@@ -1,10 +1,7 @@
-
 import time
 import random
-import urllib
-import json
-import requests
 
+from pip._vendor import requests
 
 wines = [
   {
@@ -236,14 +233,11 @@ def getQuery(wine):
     print(r.status_code, r.reason)
 
 def updateQuery(wine1,wine2):
-    # headers = {'Content-Type': 'application/json'}
-    # data = [wine1, wine2]
-    # r = requests.put("http://193.106.55.134:3000/wines/",  data=data)
-    # print(r.status_code)
-    header = {'CustomHeader': 'CustomValue'}
-    req = urllib.request.Request(method="PUT",url='http://193.106.55.134:3000/wines/',data=bytes(json.dumps([wine1,wine2]), 'utf-8'))
-    res = urllib.request.urlopen(req, timeout=5)
-    print(res.status,res.reason)
+    headers = {'Content-Type': 'application/json'}
+    data = [wine1, wine2]
+    r = requests.put(url="http://193.106.55.134:3000/wines",  json=data, headers = headers)
+    print(r.status_code)
+
 
 def runUpdateQuery():
     print("Start to run update queries:")
