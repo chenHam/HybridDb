@@ -3,6 +3,7 @@ import sys
 from multiprocessing import Pool
 from pip._vendor import requests
 import time
+import numpy as np
 
 wines = [
   {
@@ -272,26 +273,26 @@ def runInsertQuery(distribution,windowTime):
     insertQuery(wines[numOfWine1])
 
 def runFunc(query):
-  if (query == "get"):
-    runGetQuery(getDistribution,windowTime)
-  elif (query == "insert"):
-    runInsertQuery(insertDistribution,windowTime)
-  elif (query == "update"):
-    runUpdateQuery(updateDistibution,windowTime)
-  else:
-    print("Unknown command !!")
+    import json
+    dists=json.loads(sys.argv[1])
+    actionIterations=len(dists)
+    windowTime = int(sys.argv[2])
+    numOfIterations=int(sys.argv[3])
+    for i in range(0,numOfIterations):
+        for i in range(0, actionIterations):
+          if (query == "get"):
+            runGetQuery(dists[i][0],windowTime)
+          elif (query == "insert"):
+            runInsertQuery(dists[i][1],windowTime)
+          elif (query == "update"):
+            runUpdateQuery(dists[i][2],windowTime)
+          else:
+            print("Unknown command !!")
 
 #RUN
 if __name__ == '__main__':
-    getDistribution = int(sys.argv[1])
-    insertDistribution = int(sys.argv[2])
-    updateDistibution = int(sys.argv[3])
-    windowTime = int(sys.argv[4])
-    iterations = int(sys.argv[5])
-    for i in range(0, iterations):
-        print("iteration: ",i)
-        p = Pool(3)
-        p.map(runFunc, ["get","insert","update"])
+    p = Pool(3)
+    p.map(runFunc, ["get","insert","update"])
     print("finish to Run all the queries")
 
 
