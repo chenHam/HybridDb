@@ -3,7 +3,7 @@ import sys
 from multiprocessing import Pool
 from pip._vendor import requests
 import time
-import numpy as np
+import json
 
 wines = [
   {
@@ -242,7 +242,6 @@ def updateQuery(wine1,wine2):
 
 
 def runUpdateQuery(distribution,windowTime):
-    print("Start to run update queries:")
     timeInSec=windowTime*60
     queryInterval=timeInSec/distribution
     for i in range(0, distribution):
@@ -253,7 +252,6 @@ def runUpdateQuery(distribution,windowTime):
         updateQuery(wines[numOfWine1],wines[numOfWine2])
 
 def runGetQuery(distribution,windowTime):
-  print("Start to run get queries:")
   timeInSec = windowTime * 60
   queryInterval = timeInSec / distribution
   for i in range(0, distribution):
@@ -263,7 +261,6 @@ def runGetQuery(distribution,windowTime):
     getQuery(wines[numOfWine1])
 
 def runInsertQuery(distribution,windowTime):
-  print("Start to run insert queries:")
   timeInSec = windowTime * 60
   queryInterval = timeInSec / distribution
   for i in range(0, distribution):
@@ -273,7 +270,6 @@ def runInsertQuery(distribution,windowTime):
     insertQuery(wines[numOfWine1])
 
 def runFunc(query):
-    import json
     dists=json.loads(sys.argv[1])
     actionIterations=len(dists)
     windowTime = int(sys.argv[2])
@@ -293,11 +289,4 @@ def runFunc(query):
 if __name__ == '__main__':
     p = Pool(3)
     p.map(runFunc, ["get","insert","update"])
-    print("finish to Run all the queries")
-
-
-
-
-
-
-
+    print("Finish to Run all the queries")
