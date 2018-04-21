@@ -1,6 +1,9 @@
-import time
 import random
-import urllib3
+import sys
+from multiprocessing import Pool
+from pip._vendor import requests
+import time
+import numpy as np
 
 wines = [
   {
@@ -225,42 +228,76 @@ maxSecondsToRand=3
 
 def insertQuery(wine):
     r = requests.post("http://193.106.55.134:3000/wines", data=wine)
-    print(r.status_code, r.reason)
+    print("insert return: ",r.status_code, r.reason)
 
 def getQuery(wine):
     r = requests.post('http://193.106.55.134:3000/getwines/',data=wine)
-    print(r.status_code, r.reason)
+    print("get return: ",r.status_code, r.reason)
 
 def updateQuery(wine1,wine2):
-    # headers = {'Content-Type': 'application/json'}
-    # data = [wine1, wine2]
-    # r = requests.put("http://193.106.55.134:3000/wines/",  data=data)
-    # print(r.status_code)
-
-    opener = urllib3.build_opener(urllib3.HTTPHandler)
-    request = urllib3.Request('http://193.106.55.134:3000/wines', data=[wine1, wine2])
-    request.add_header('Content-Type', 'application/json')
-    request.get_method = lambda: 'PUT'
-    url = opener.open(request)
-
-    print(url.read())
+    headers = {'Content-Type': 'application/json'}
+    data = [wine1, wine2]
+    r = requests.put(url="http://193.106.55.134:3000/wines",  json=data, headers = headers)
+    print("update return: ",r.status_code, r.reason)
 
 
-def runUpdateQuery():
+def runUpdateQuery(distribution,windowTime):
     print("Start to run update queries:")
-    while (True):
-        time.sleep(10)#random.randint(minSecondsToRand, maxSecondsToRand))
+    timeInSec=windowTime*60
+    queryInterval=timeInSec/distribution
+    for i in range(0, distribution):
+        time.sleep(queryInterval)
         numOfWine1 = random.randint(0, 23)
         numOfWine2 = random.randint(0, 23)
-        print("Run update query...")
+        print("Run update query number  " + str(i)+"...")
         updateQuery(wines[numOfWine1],wines[numOfWine2])
-        print("Finish to run update query...")
 
+def runGetQuery(distribution,windowTime):
+  print("Start to run get queries:")
+  timeInSec = windowTime * 60
+  queryInterval = timeInSec / distribution
+  for i in range(0, distribution):
+    time.sleep(queryInterval)
+    numOfWine1 = random.randint(0, 23)
+    print("Run get query number  "+str(i)+"...")
+    getQuery(wines[numOfWine1])
+
+def runInsertQuery(distribution,windowTime):
+  print("Start to run insert queries:")
+  timeInSec = windowTime * 60
+  queryInterval = timeInSec / distribution
+  for i in range(0, distribution):
+    time.sleep(queryInterval)
+    numOfWine1 = random.randint(0, 23)
+    print("Run insert query number  "+str(i)+"...")
+    insertQuery(wines[numOfWine1])
+
+def runFunc(query):
+    import json
+    dists=json.loads(sys.argv[1])
+    actionIterations=len(dists)
+    windowTime = int(sys.argv[2])
+    numOfIterations=int(sys.argv[3])
+    for i in range(0,numOfIterations):
+        for i in range(0, actionIterations):
+          if (query == "get"):
+            runGetQuery(dists[i][0],windowTime)
+          elif (query == "insert"):
+            runInsertQuery(dists[i][1],windowTime)
+          elif (query == "update"):
+            runUpdateQuery(dists[i][2],windowTime)
+          else:
+            print("Unknown command !!")
 
 #RUN
-#for  i in range (0,5):
-  #print(i)
-updateQuery(wines[1],wines[2])
+if __name__ == '__main__':
+    p = Pool(3)
+    p.map(runFunc, ["get","insert","update"])
+    print("finish to Run all the queries")
+
+
+
+
 
 
 
