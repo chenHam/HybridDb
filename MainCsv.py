@@ -1,11 +1,19 @@
 import powerSetFinder as psf;
 import csv;
 import pandas as pd;
-import datetime;
+import datetime as dt;
+from datetime import date, datetime, timedelta
 
-def ortal_main(mainCsv,hour,df):
 
-    startTime = hour
+
+
+def ortal_main(mainCsv,hour,df,range,i):
+
+    # print(df)
+    # startTime = hour
+    a=str(range[i])[:19]
+    b=str(range[i+1])[:19]
+    startTime = a+"-"+b
     total = df['RunTime'].sum()
     queries_type = df['QueryType']
 
@@ -60,11 +68,30 @@ def main():
     df = df[df.QueryType > -1]
     df = df[['StartTime', 'QueryType', 'RunTime']]
     hours = df['StartTime'].unique()
+
+    size = len(hours)
+    hours.sort()
+    start_date = hours[0]
+    a=datetime.strptime(start_date, "%Y-%m-%d %H:%M:%S.%f")
+    end_date = hours[size-1]
+    b=datetime.strptime(end_date, "%Y-%m-%d %H:%M:%S.%f")
+
+    for dt in hours:
+       range = date_range(a, b, 10, 'minutes')
+
+    range_size = len(range)-1
+    i=0
+    # for hour in range:
     for hour in hours:
-        new_df = pd.DataFrame()
-        new_df = df.loc[df['StartTime'] == hour]
-        mainCsv = ortal_main(mainCsv,hour, new_df)
-        mainCsv.to_csv("mainCsv.csv", index=False)
+        if(i<range_size):
+            new_df = pd.DataFrame()
+            df['StartTime'] = pd.to_datetime(df['StartTime'])
+            mask = (df['StartTime'] > range[i]) & (df['StartTime'] <= range[i+1])
+            new_df = df.loc[mask]
+            print(new_df)
+            mainCsv = ortal_main(mainCsv,hour, new_df,range,i)
+            mainCsv.to_csv("mainCsv.csv", index=False)
+            i += 1
 
 
 def get_query_type(query):
@@ -78,5 +105,23 @@ def get_query_type(query):
         ret_val = 2
 
     return ret_val
+
+def date_range(start_date, end_date, increment, period):
+    result = []
+    nxt = start_date
+    delta = timedelta(**{period:increment})
+    while nxt <= end_date:
+        result.append(nxt)
+        # d=str(delta)
+        nxt += delta
+        # nxt += d
+    return result
+
+# def date_between(date,range):
+#     print(date)
+#     a=datetime.strptime(date, "%Y-%m-%d %H:%M:%S.%f")
+#     b=datetime.strptime(range[0], "%Y-%m-%d %H:%M:%S.%f")
+#     if(date<b):
+#         return
 
 main()
