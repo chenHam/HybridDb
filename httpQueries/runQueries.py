@@ -337,7 +337,7 @@ def runFunc(query):
           else:
             print("Unknown command !!")
 
-#RUN
+#RUN MAIN
 if __name__ == '__main__':
     p = Pool(4)
     p.map(runFunc, ["getBig","getSmall","insert","update"])
