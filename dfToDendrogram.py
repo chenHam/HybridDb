@@ -89,3 +89,4 @@ hierarchy.dendrogram(Z, leaf_rotation=90, leaf_font_size=5, labels=finalDf.index
 # SHOW CLUSTERS
 belongs= fcluster(Z,5,criterion='maxclust')
 plt.show()
+
