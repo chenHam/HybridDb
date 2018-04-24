@@ -270,7 +270,7 @@ minSecondsToRand=1
 maxSecondsToRand=3
 
 def insertQuery(wine):
-    r = requests.post("http://193.106.55.134:3000/wines", data=wine)
+    r = requests.post("http://193.106.55.134:3001/wines", data=wine)
     print("insert return: ",r.status_code, r.reason)
 
 def getQuery(wine):# small 3002. big 3001
@@ -280,7 +280,7 @@ def getQuery(wine):# small 3002. big 3001
 def updateQuery(wine1,wine2):
     headers = {'Content-Type': 'application/json'}
     data = [wine1, wine2]
-    r = requests.put(url="http://193.106.55.134:3000/wines",  json=data, headers = headers)
+    r = requests.put(url="http://193.106.55.134:3001/wines",  json=data, headers = headers)
     print("update return: ",r.status_code, r.reason)
 
 
@@ -294,21 +294,14 @@ def runUpdateQuery(distribution,windowTime):
         print("Run update query number  " + str(i)+"...")
         updateQuery(wines[numOfWine1],wines[numOfWine2])
 
-def runGetQueryBig(distribution,windowTime):
+def runGetQuery(distribution,windowTime,queryWineSize):
   timeInSec = windowTime * 60
   queryInterval = timeInSec / distribution
   for i in range(0, distribution):
     time.sleep(queryInterval)
     print("Run get-big query number  "+str(i)+"...")
-    getQuery(wines2[1])
+    getQuery(wines2[queryWineSize])
 
-def runGetQuerySmall(distribution,windowTime):
-  timeInSec = windowTime * 60
-  queryInterval = timeInSec / distribution
-  for i in range(0, distribution):
-    time.sleep(queryInterval)
-    print("Run get-small query number  "+str(i)+"...")
-    getQuery(wines2[0])
 
 def runInsertQuery(distribution,windowTime):
   timeInSec = windowTime * 60
@@ -325,11 +318,12 @@ def runFunc(query):
     windowTime = int(sys.argv[2])
     numOfIterations=int(sys.argv[3])
     for i in range(0,numOfIterations):
+        print(query," iteration: ",i)
         for i in range(0, actionIterations):
           if (query == "getBig"):
-            runGetQueryBig(dists[i][0],windowTime)
+            runGetQuery(dists[i][0],windowTime,1)
           elif (query == "getSmall"):
-            runGetQuerySmall(dists[i][1], windowTime)
+            runGetQuery(dists[i][1], windowTime,0)
           elif (query == "insert"):
             runInsertQuery(dists[i][2],windowTime)
           elif (query == "update"):
