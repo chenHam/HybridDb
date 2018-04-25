@@ -4,7 +4,10 @@ from sklearn.metrics import silhouette_samples, silhouette_score
 
 import pandas as pd
 
-df = pd.read_csv('Clustering.csv')
+df = pd.read_csv('Clustering1.csv')
+df['RunningTime'] = pd.DatetimeIndex(df['RunningTime']).hour + (pd.DatetimeIndex(df['RunningTime']).minute)/100
+df = df[['RunningTime', 'A', 'B', 'C']].values
+# df['RunningTime'] = pd.DatetimeIndex(df['RunningTime']).hour + (pd.DatetimeIndex(df['RunningTime']).minute)/100
 
 range_n_clusters = [2, 3, 4, 5]
 #range_n_clusters = [2, 3, 4, 5, 6]
