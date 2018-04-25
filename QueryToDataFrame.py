@@ -33,7 +33,7 @@ def main():
 
 
     df = pd.DataFrame(list,columns=['StartTime','RunTime','Query'])
-    df.to_csv("DataFrame1.csv")
+    df.to_csv("DataFrame_3001_fat_queries.csv")
 
     print(df)
     conn.close()

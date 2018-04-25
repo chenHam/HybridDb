@@ -223,21 +223,64 @@ wines = [
     "picture": "waterbrook.jpg"
   }
 ]
+wines2 = [
+  {
+    "name0": "WATERBROOK",
+    "year0": "2009",
+    "grapes0": "Merlot",
+    "country0": "USA",
+    "region0": "Washington",
+    "description0": "Legend has it the gods didn't share their ambrosia with mere mortals.  This merlot may be the closest we've ever come to a taste of heaven.",
+    "picture0": "waterbrook.jpg"
+  },
+  {
+    "name0": "CHATEAU DE SAINT COSME",
+    "year0": "2009",
+    "grapes0": "Grenache / Syrah",
+    "country0": "France",
+    "region0": "Southern Rhone",
+    "description0": "The aromas of fruit and spice give one a hint of the light drinkability of this lovely wine, which makes an excellent complement to fish dishes.",
+    "picture0": "saint_cosme.jpg",
+    "name1": "CHATEAU DE SAINT COSME",
+    "year1": "2009",
+    "grapes1": "Grenache / Syrah",
+    "country1": "France",
+    "region1": "Southern Rhone",
+    "description1": "The aromas of fruit and spice give one a hint of the light drinkability of this lovely wine, which makes an excellent complement to fish dishes.",
+    "picture1": "saint_cosme.jpg",
+    "name2": "CHATEAU DE SAINT COSME",
+    "year2": "2009",
+    "grapes2": "Grenache / Syrah",
+    "country2": "France",
+    "region2": "Southern Rhone",
+    "description2": "The aromas of fruit and spice give one a hint of the light drinkability of this lovely wine, which makes an excellent complement to fish dishes.",
+    "picture2": "saint_cosme.jpg",
+    "name3": "CHATEAU DE SAINT COSME",
+    "year3": "2009",
+    "grapes3": "Grenache / Syrah",
+    "country3": "France",
+    "region3": "Southern Rhone",
+    "description3": "The aromas of fruit and spice give one a hint of the light drinkability of this lovely wine, which makes an excellent complement to fish dishes.",
+    "picture3": "saint_cosme.jpg"
+  }
+]
+
+
 minSecondsToRand=1
 maxSecondsToRand=3
 
 def insertQuery(wine):
-    r = requests.post("http://193.106.55.134:3000/wines", data=wine)
+    r = requests.post("http://193.106.55.134:3001/wines", data=wine)
     print("insert return: ",r.status_code, r.reason)
 
-def getQuery(wine):
-    r = requests.post('http://193.106.55.134:3000/getwines/',data=wine)
+def getQuery(wine):# small 3002. big 3001
+    r = requests.post('http://193.106.55.134:3001/getwines/',data=wine)
     print("get return: ",r.status_code, r.reason)
 
 def updateQuery(wine1,wine2):
     headers = {'Content-Type': 'application/json'}
     data = [wine1, wine2]
-    r = requests.put(url="http://193.106.55.134:3000/wines",  json=data, headers = headers)
+    r = requests.put(url="http://193.106.55.134:3001/wines",  json=data, headers = headers)
     print("update return: ",r.status_code, r.reason)
 
 
@@ -251,14 +294,14 @@ def runUpdateQuery(distribution,windowTime):
         print("Run update query number  " + str(i)+"...")
         updateQuery(wines[numOfWine1],wines[numOfWine2])
 
-def runGetQuery(distribution,windowTime):
+def runGetQuery(distribution,windowTime,queryWineSize):
   timeInSec = windowTime * 60
   queryInterval = timeInSec / distribution
   for i in range(0, distribution):
     time.sleep(queryInterval)
-    numOfWine1 = random.randint(0, 23)
-    print("Run get query number  "+str(i)+"...")
-    getQuery(wines[numOfWine1])
+    print("Run get-big query number  "+str(i)+"...")
+    getQuery(wines2[queryWineSize])
+
 
 def runInsertQuery(distribution,windowTime):
   timeInSec = windowTime * 60
@@ -275,18 +318,21 @@ def runFunc(query):
     windowTime = int(sys.argv[2])
     numOfIterations=int(sys.argv[3])
     for i in range(0,numOfIterations):
+        print(query," iteration: ",i)
         for i in range(0, actionIterations):
-          if (query == "get"):
-            runGetQuery(dists[i][0],windowTime)
+          if (query == "getBig"):
+            runGetQuery(dists[i][0],windowTime,1)
+          elif (query == "getSmall"):
+            runGetQuery(dists[i][1], windowTime,0)
           elif (query == "insert"):
-            runInsertQuery(dists[i][1],windowTime)
+            runInsertQuery(dists[i][2],windowTime)
           elif (query == "update"):
-            runUpdateQuery(dists[i][2],windowTime)
+            runUpdateQuery(dists[i][3],windowTime)
           else:
             print("Unknown command !!")
 
-#RUN
+#RUN MAIN
 if __name__ == '__main__':
-    p = Pool(3)
-    p.map(runFunc, ["get","insert","update"])
+    p = Pool(4)
+    p.map(runFunc, ["getBig","getSmall","insert","update"])
     print("Finish to Run all the queries")
