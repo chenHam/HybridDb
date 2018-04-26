@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import pandas as pd
 
+
 df = pd.read_csv('mainCsv-fat-1.csv')
 dfA = pd.read_csv('mainCsv-thin-1.csv')
 data = df[['RunningTime','SumOfRunning']].plot('RunningTime','SumOfRunning',label="Fat",marker='o',color='skyblue')
