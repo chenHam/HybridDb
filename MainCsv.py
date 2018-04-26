@@ -29,37 +29,37 @@ def ortal_main(mainCsv,hour,df,range,i):
     mainCsv = mainCsv.append(pd.Series([startTime, counterS, counterU, counterI, total], index=['RunningTime','A','B','C','SumOfRunning']),ignore_index=True)
     return mainCsv
 
-def test():
-    for t in total:
-        listsum.append(t)
-    listsum.remove('RunTime')
-
-    query = df[3]
-    listquery = []
-    for q in query:
-        listquery.append(q)
-    listquery.remove("Query")
-
-    counterS=0
-    counterU=0
-    counterI=0
-    for l in listquery:
-        cluster = l.split(" ")
-        if(str(cluster[0]).lower() == 'select'):
-            counterS+=1
-        if(str(cluster[0]).lower() == 'update'):
-            counterU+=1
-        if (str(cluster[0]).lower() == 'insert'):
-           counterI+=1
-
-    for l in listsum:
-        ltoint=float(l)
-        sum+=ltoint
+# def test():
+#     for t in total:
+#         listsum.append(t)
+#     listsum.remove('RunTime')
+#
+#     query = df[3]
+#     listquery = []
+#     for q in query:
+#         listquery.append(q)
+#     listquery.remove("Query")
+#
+#     counterS=0
+#     counterU=0
+#     counterI=0
+#     for l in listquery:
+#         cluster = l.split(" ")
+#         if(str(cluster[0]).lower() == 'select'):
+#             counterS+=1
+#         if(str(cluster[0]).lower() == 'update'):
+#             counterU+=1
+#         if (str(cluster[0]).lower() == 'insert'):
+#            counterI+=1
+#
+#     for l in listsum:
+#         ltoint=float(l)
+#         sum+=ltoint
 
 
 def main():
     mainCsv = pd.DataFrame(columns=['RunningTime', 'A', 'B', 'C', 'SumOfRunning'])
-    df = pd.read_csv('DataFrame1.csv')
+    df = pd.read_csv('DataFrame_3001_fat_queries.csv')
 
     df['QueryType'] = df['Query'].apply(lambda  x: get_query_type(x))
     df = df[df.QueryType > -1]
@@ -87,7 +87,7 @@ def main():
             new_df = df.loc[mask]
             print(new_df)
             mainCsv = ortal_main(mainCsv,hour, new_df,range,i)
-            mainCsv.to_csv("mainCsv.csv", index=False)
+            mainCsv.to_csv("mainCsv-fat-1.csv", index=False)
             i += 1
 
 
