@@ -1,0 +1,73 @@
+,0,1,2,3
+0,,StartTime,RunTime,Query
+1,0.0,21,0.562,select * from winecellar.wine_test_1
+2,1.0,21,0.534,select * from wine_test_1
+3,2.0,21,0.545,select * from wine_test_1
+4,3.0,21,18.133,insert into wine_test_1 select * from wine_test_1
+5,4.0,21,0.248,show create table wine_test_1
+6,5.0,21,1.54,"Insert into wine_test_1(name0,year0,grapes0,country0,region0,description0,picture0, name1,year1,grapes1,country1,region1,description1,picture1, name2,year2,grapes2,country2,region2,description2,picture2, name3,year3,grapes3,country3,region3,description3,picture3, name4,year4,grapes4,country4,region4,description4,picture4)
+Select name0,year0,grapes0,country0,region0,description0,picture0, name1,year1,grapes1,country1,region1,description1,picture1, name2,year2,grapes2,country2,region2,description2,picture2, name3,year3,grapes3,country3,region3,description3,picture3, name4,year4,grapes4,country4,region4,description4,picture4 from wine_test_1"
+7,6.0,21,2.164,"Insert into wine_test_1(name0,year0,grapes0,country0,region0,description0,picture0, name1,year1,grapes1,country1,region1,description1,picture1, name2,year2,grapes2,country2,region2,description2,picture2, name3,year3,grapes3,country3,region3,description3,picture3, name4,year4,grapes4,country4,region4,description4,picture4) Select name0,year0,grapes0,country0,region0,description0,picture0, name1,year1,grapes1,country1,region1,description1,picture1, name2,year2,grapes2,country2,region2,description2,picture2, name3,year3,grapes3,country3,region3,description3,picture3, name4,year4,grapes4,country4,region4,description4,picture4 from wine_test_1"
+8,7.0,21,15.299,"Insert into wine_test_1(name0,year0,grapes0,country0,region0,description0,picture0, name1,year1,grapes1,country1,region1,description1,picture1, name2,year2,grapes2,country2,region2,description2,picture2, name3,year3,grapes3,country3,region3,description3,picture3, name4,year4,grapes4,country4,region4,description4,picture4) Select name0,year0,grapes0,country0,region0,description0,picture0, name1,year1,grapes1,country1,region1,description1,picture1, name2,year2,grapes2,country2,region2,description2,picture2, name3,year3,grapes3,country3,region3,description3,picture3, name4,year4,grapes4,country4,region4,description4,picture4 from wine_test_1"
+9,8.0,21,6.73,"Insert into wine_test_1(name0,year0,grapes0,country0,region0,description0,picture0, name1,year1,grapes1,country1,region1,description1,picture1, name2,year2,grapes2,country2,region2,description2,picture2, name3,year3,grapes3,country3,region3,description3,picture3, name4,year4,grapes4,country4,region4,description4,picture4) Select name0,year0,grapes0,country0,region0,description0,picture0, name1,year1,grapes1,country1,region1,description1,picture1, name2,year2,grapes2,country2,region2,description2,picture2, name3,year3,grapes3,country3,region3,description3,picture3, name4,year4,grapes4,country4,region4,description4,picture4 from wine_test_1"
+10,9.0,21,28.314,"Insert into wine_test_1(name0,year0,grapes0,country0,region0,description0,picture0, name1,year1,grapes1,country1,region1,description1,picture1, name2,year2,grapes2,country2,region2,description2,picture2, name3,year3,grapes3,country3,region3,description3,picture3, name4,year4,grapes4,country4,region4,description4,picture4) Select name0,year0,grapes0,country0,region0,description0,picture0, name1,year1,grapes1,country1,region1,description1,picture1, name2,year2,grapes2,country2,region2,description2,picture2, name3,year3,grapes3,country3,region3,description3,picture3, name4,year4,grapes4,country4,region4,description4,picture4 from wine_test_1"
+11,10.0,21,81.68,"Insert into wine_test_1(name0,year0,grapes0,country0,region0,description0,picture0, name1,year1,grapes1,country1,region1,description1,picture1, name2,year2,grapes2,country2,region2,description2,picture2, name3,year3,grapes3,country3,region3,description3,picture3, name4,year4,grapes4,country4,region4,description4,picture4) Select name0,year0,grapes0,country0,region0,description0,picture0, name1,year1,grapes1,country1,region1,description1,picture1, name2,year2,grapes2,country2,region2,description2,picture2, name3,year3,grapes3,country3,region3,description3,picture3, name4,year4,grapes4,country4,region4,description4,picture4 from wine_test_1"
+12,11.0,21,70.126,"Insert into wine_test_1(name0,year0,grapes0,country0,region0,description0,picture0, name1,year1,grapes1,country1,region1,description1,picture1, name2,year2,grapes2,country2,region2,description2,picture2, name3,year3,grapes3,country3,region3,description3,picture3, name4,year4,grapes4,country4,region4,description4,picture4) Select name0,year0,grapes0,country0,region0,description0,picture0, name1,year1,grapes1,country1,region1,description1,picture1, name2,year2,grapes2,country2,region2,description2,picture2, name3,year3,grapes3,country3,region3,description3,picture3, name4,year4,grapes4,country4,region4,description4,picture4 from wine_test_1"
+13,12.0,21,140.791,"Insert into wine_test_1(name0,year0,grapes0,country0,region0,description0,picture0, name1,year1,grapes1,country1,region1,description1,picture1, name2,year2,grapes2,country2,region2,description2,picture2, name3,year3,grapes3,country3,region3,description3,picture3, name4,year4,grapes4,country4,region4,description4,picture4) Select name0,year0,grapes0,country0,region0,description0,picture0, name1,year1,grapes1,country1,region1,description1,picture1, name2,year2,grapes2,country2,region2,description2,picture2, name3,year3,grapes3,country3,region3,description3,picture3, name4,year4,grapes4,country4,region4,description4,picture4 from wine_test_1"
+14,13.0,21,214.891,"Insert into wine_test_1(name0,year0,grapes0,country0,region0,description0,picture0, name1,year1,grapes1,country1,region1,description1,picture1, name2,year2,grapes2,country2,region2,description2,picture2, name3,year3,grapes3,country3,region3,description3,picture3, name4,year4,grapes4,country4,region4,description4,picture4) Select name0,year0,grapes0,country0,region0,description0,picture0, name1,year1,grapes1,country1,region1,description1,picture1, name2,year2,grapes2,country2,region2,description2,picture2, name3,year3,grapes3,country3,region3,description3,picture3, name4,year4,grapes4,country4,region4,description4,picture4 from wine_test_1"
+15,14.0,21,766.04,"Insert into wine_test_1(name0,year0,grapes0,country0,region0,description0,picture0, name1,year1,grapes1,country1,region1,description1,picture1, name2,year2,grapes2,country2,region2,description2,picture2, name3,year3,grapes3,country3,region3,description3,picture3, name4,year4,grapes4,country4,region4,description4,picture4) Select name0,year0,grapes0,country0,region0,description0,picture0, name1,year1,grapes1,country1,region1,description1,picture1, name2,year2,grapes2,country2,region2,description2,picture2, name3,year3,grapes3,country3,region3,description3,picture3, name4,year4,grapes4,country4,region4,description4,picture4 from wine_test_1"
+16,15.0,21,949.609,"Insert into wine_test_1(name0,year0,grapes0,country0,region0,description0,picture0, name1,year1,grapes1,country1,region1,description1,picture1, name2,year2,grapes2,country2,region2,description2,picture2, name3,year3,grapes3,country3,region3,description3,picture3, name4,year4,grapes4,country4,region4,description4,picture4) Select name0,year0,grapes0,country0,region0,description0,picture0, name1,year1,grapes1,country1,region1,description1,picture1, name2,year2,grapes2,country2,region2,description2,picture2, name3,year3,grapes3,country3,region3,description3,picture3, name4,year4,grapes4,country4,region4,description4,picture4 from wine_test_1"
+17,16.0,21,2883.03,"Insert into wine_test_1(name0,year0,grapes0,country0,region0,description0,picture0, name1,year1,grapes1,country1,region1,description1,picture1, name2,year2,grapes2,country2,region2,description2,picture2, name3,year3,grapes3,country3,region3,description3,picture3, name4,year4,grapes4,country4,region4,description4,picture4) Select name0,year0,grapes0,country0,region0,description0,picture0, name1,year1,grapes1,country1,region1,description1,picture1, name2,year2,grapes2,country2,region2,description2,picture2, name3,year3,grapes3,country3,region3,description3,picture3, name4,year4,grapes4,country4,region4,description4,picture4 from wine_test_1"
+18,17.0,21,7529.823,"Insert into wine_test_1(name0,year0,grapes0,country0,region0,description0,picture0, name1,year1,grapes1,country1,region1,description1,picture1, name2,year2,grapes2,country2,region2,description2,picture2, name3,year3,grapes3,country3,region3,description3,picture3, name4,year4,grapes4,country4,region4,description4,picture4) Select name0,year0,grapes0,country0,region0,description0,picture0, name1,year1,grapes1,country1,region1,description1,picture1, name2,year2,grapes2,country2,region2,description2,picture2, name3,year3,grapes3,country3,region3,description3,picture3, name4,year4,grapes4,country4,region4,description4,picture4 from wine_test_1"
+19,18.0,22,1.383,SHOW FULL TABLES FROM `winecellar`
+20,19.0,22,1.035,SHOW PROCEDURE STATUS WHERE Db='winecellar'
+21,20.0,22,0.526,SHOW FUNCTION STATUS WHERE Db='winecellar'
+22,21.0,22,0.821,SHOW COLUMNS FROM `winecellar`.`join_test_1`
+23,22.0,22,5.735,SHOW COLUMNS FROM `winecellar`.`join_test_11`
+24,23.0,22,0.752,SHOW COLUMNS FROM `winecellar`.`join_test_12`
+25,24.0,22,34.097,SHOW COLUMNS FROM `winecellar`.`ortal1`
+26,25.0,22,1.096,SHOW COLUMNS FROM `winecellar`.`ortal11`
+27,26.0,22,0.43,SHOW COLUMNS FROM `winecellar`.`ortal12`
+28,27.0,22,0.413,SHOW COLUMNS FROM `winecellar`.`ortal13`
+29,28.0,22,0.648,SHOW COLUMNS FROM `winecellar`.`ortal14`
+30,29.0,22,1.09,SHOW COLUMNS FROM `winecellar`.`ortal15`
+31,30.0,22,0.925,SHOW COLUMNS FROM `winecellar`.`ortal16`
+32,31.0,22,0.712,SHOW COLUMNS FROM `winecellar`.`ortal17`
+33,32.0,22,0.944,SHOW COLUMNS FROM `winecellar`.`ortal18`
+34,33.0,22,0.828,SHOW COLUMNS FROM `winecellar`.`ortal19`
+35,34.0,22,0.749,SHOW COLUMNS FROM `winecellar`.`ortal20`
+36,35.0,22,0.637,SHOW COLUMNS FROM `winecellar`.`ortal40`
+37,36.0,22,0.958,SHOW COLUMNS FROM `winecellar`.`test1`
+38,37.0,22,0.844,SHOW COLUMNS FROM `winecellar`.`test11`
+39,38.0,22,0.41,SHOW COLUMNS FROM `winecellar`.`test12`
+40,39.0,22,0.696,SHOW COLUMNS FROM `winecellar`.`test13`
+41,40.0,22,11.552,SHOW COLUMNS FROM `winecellar`.`test14`
+42,41.0,22,0.763,SHOW COLUMNS FROM `winecellar`.`test15`
+43,42.0,22,0.661,SHOW COLUMNS FROM `winecellar`.`test2`
+44,43.0,22,0.742,SHOW COLUMNS FROM `winecellar`.`test3`
+45,44.0,22,0.489,SHOW COLUMNS FROM `winecellar`.`wine`
+46,45.0,22,0.803,SHOW COLUMNS FROM `winecellar`.`wine_test_1`
+47,46.0,22,1.032,SHOW COLUMNS FROM `winecellar`.`wine_test_11`
+48,47.0,22,0.689,SHOW COLUMNS FROM `winecellar`.`wine_test_2`
+49,48.0,22,0.842,SHOW COLUMNS FROM `winecellar`.`wine_test_21`
+50,49.0,22,0.519,SHOW COLUMNS FROM `winecellar`.`wine_test_22`
+51,50.0,22,0.79,SHOW COLUMNS FROM `winecellar`.`wine_test_23`
+52,51.0,22,0.435,SHOW COLUMNS FROM `winecellar`.`wine_test_24`
+53,52.0,22,0.229,use winecellar
+54,53.0,22,0.624,SHOW COLUMNS FROM wine
+55,54.0,22,0.174,use winecellar
+56,55.0,22,0.599,SHOW FULL COLUMNS FROM `winecellar`.`wine`
+57,56.0,22,0.219,"select * from wine
+LIMIT 0, 1000"
+58,57.0,22,0.157,use winecellar
+59,58.0,22,0.216,use winecellar
+60,59.0,22,0.132,use winecellar
+61,60.0,22,0.251,use winecellar
+62,61.0,22,0.079,USE `winecellar`
+63,62.0,22,0.102,use winecellar
+64,63.0,22,0.14,USE `winecellar`
+65,64.0,23,0.075,USE `winecellar`
+66,65.0,23,0.073,USE `winecellar`
+67,66.0,17,0.18,USE `winecellar`
+68,67.0,17,0.137,USE `winecellar`
+69,68.0,17,0.087,USE `winecellar`
