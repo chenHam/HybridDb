@@ -1,1 +1,7 @@
-,RunningTime,A,B,C,SumOfRunning
+RunningTime,SumOfRunning,cluster_type
+19.38,23.29,thin
+19.58,23.29,fat
+20.08,19.44,thin
+20.18,19.44,fat
+20.28,21.23,fat
+20.38,21.29,thin
