@@ -268,19 +268,20 @@ wines2 = [
 
 minSecondsToRand=1
 maxSecondsToRand=3
+port=3002
 
 def insertQuery(wine):
-    r = requests.post("http://193.106.55.134:3001/wines", data=wine)
+    r = requests.post("http://193.106.55.134:"+str(port)+"/wines", data=wine)
     print("insert return: ",r.status_code, r.reason)
 
 def getQuery(wine):# small 3002. big 3001
-    r = requests.post('http://193.106.55.134:3001/getwines/',data=wine)
+    r = requests.post("http://193.106.55.134:"+str(port)+"/getwines/",data=wine)
     print("get return: ",r.status_code, r.reason)
 
 def updateQuery(wine1,wine2):
     headers = {'Content-Type': 'application/json'}
     data = [wine1, wine2]
-    r = requests.put(url="http://193.106.55.134:3001/wines",  json=data, headers = headers)
+    r = requests.put(url="http://193.106.55.134:"+str(port)+"/wines",  json=data, headers = headers)
     print("update return: ",r.status_code, r.reason)
 
 
@@ -320,6 +321,7 @@ def runFunc(query):
     for i in range(0,numOfIterations):
         print(query," iteration: ",i)
         for i in range(0, actionIterations):
+          initialPort()
           if (query == "getBig"):
             runGetQuery(dists[i][0],windowTime,1)
           elif (query == "getSmall"):
@@ -330,6 +332,10 @@ def runFunc(query):
             runUpdateQuery(dists[i][3],windowTime)
           else:
             print("Unknown command !!")
+
+def initialPort():
+    #QUERYING CHEN METHOD
+    port=3002
 
 #RUN MAIN
 if __name__ == '__main__':
