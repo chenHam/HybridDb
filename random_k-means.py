@@ -6,8 +6,8 @@ import pandas as pd
 def main():
     # experiment num 1
     file_name_fat = 'Clustering_fat.csv'
-    # file_name_thin = 'Clustering_thin.csv'
-    file_name_thin = 'mainCsv-thin-1.csv'
+    file_name_thin = 'Clustering_thin.csv'
+    #file_name_thin = 'mainCsv-thin-1.csv'
 
     df_fat = cluster_by_shows(file_name_fat)[['RunningTime', 'SumOfRunning']]
     df_fat['cluster_type'] = 'fat'
@@ -33,7 +33,7 @@ def cluster_by_shows(file_name):
     main_df['RunningTime'] = pd.DatetimeIndex(main_df['RunningTime']).hour + (pd.DatetimeIndex(main_df['RunningTime']).minute) / 100
     main_df['RunningTime'] = (main_df.index + 1) * 10
     print(main_df)
-    df = main_df[['RunningTime', 'A', 'B', 'C']]
+    df = main_df[['RunningTime', 'A', 'B', 'C', 'D']]
     # df['RunningTime'] = pd.DatetimeIndex(df['RunningTime']).hour + (pd.DatetimeIndex(df['RunningTime']).minute)/100
 
     range_n_clusters = [2, 3, 4, 5]
