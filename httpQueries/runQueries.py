@@ -4,6 +4,7 @@ from multiprocessing import Pool
 from pip._vendor import requests
 import time
 import json
+import type_next_time as ti
 
 wines = [
   {
@@ -268,20 +269,20 @@ wines2 = [
 
 minSecondsToRand=1
 maxSecondsToRand=3
-port=3002
+port="3001"
 
 def insertQuery(wine):
-    r = requests.post("http://193.106.55.134:"+str(port)+"/wines", data=wine)
+    r = requests.post("http://193.106.55.134:"+port+"/wines", data=wine)
     print("insert return: ",r.status_code, r.reason)
 
 def getQuery(wine):# small 3002. big 3001
-    r = requests.post("http://193.106.55.134:"+str(port)+"/getwines/",data=wine)
+    r = requests.post("http://193.106.55.134:"+port+"/getwines/",data=wine)
     print("get return: ",r.status_code, r.reason)
 
 def updateQuery(wine1,wine2):
     headers = {'Content-Type': 'application/json'}
     data = [wine1, wine2]
-    r = requests.put(url="http://193.106.55.134:"+str(port)+"/wines",  json=data, headers = headers)
+    r = requests.put(url="http://193.106.55.134:"+port+"/wines",  json=data, headers = headers)
     print("update return: ",r.status_code, r.reason)
 
 
@@ -321,7 +322,8 @@ def runFunc(query):
     for i in range(0,numOfIterations):
         print(query," iteration: ",i)
         for i in range(0, actionIterations):
-          initialPort()
+          nowtime=datetime.now()
+          initialPort((nowtime-startTime).total_seconds())
           if (query == "getBig"):
             runGetQuery(dists[i][0],windowTime,1)
           elif (query == "getSmall"):
@@ -333,12 +335,17 @@ def runFunc(query):
           else:
             print("Unknown command !!")
 
-def initialPort():
+def initialPort(time):
     #QUERYING CHEN METHOD
-    port=3002
+    res=ti.getPrediction(time)
+    if(res==fat):
+      port="3002"
+    else:
+      port="3001"
 
 #RUN MAIN
 if __name__ == '__main__':
+    startTime=datetime.now()
     p = Pool(4)
     p.map(runFunc, ["getBig","getSmall","insert","update"])
     print("Finish to Run all the queries")
