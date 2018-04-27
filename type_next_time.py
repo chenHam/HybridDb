@@ -1,9 +1,9 @@
 import pandas as pd
 import sys
 
-input = '40'
+#input = '40'
+time = sys.argv[1]
 time = int(input)
-#time = sys.argv[1]
 
 main_df = pd.read_csv('Result.csv')
 
