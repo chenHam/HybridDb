@@ -33,7 +33,7 @@ def cluster_by_shows(file_name):
     main_df['RunningTime'] = pd.DatetimeIndex(main_df['RunningTime']).hour + (pd.DatetimeIndex(main_df['RunningTime']).minute) / 100
     main_df['RunningTime'] = (main_df.index + 1) * 10
     print(main_df)
-    df = main_df[['RunningTime', 'A', 'B', 'C', 'D']]
+    df = main_df[['RunningTime', 'A', 'B']]
     # df['RunningTime'] = pd.DatetimeIndex(df['RunningTime']).hour + (pd.DatetimeIndex(df['RunningTime']).minute)/100
 
     range_n_clusters = [2, 3, 4, 5]
