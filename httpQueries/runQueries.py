@@ -5,6 +5,7 @@ from pip._vendor import requests
 import time
 import json
 import type_next_time as ti
+import datetime
 
 wines = [
   {
@@ -269,24 +270,23 @@ wines2 = [
 
 minSecondsToRand=1
 maxSecondsToRand=3
-port="3001"
 
-def insertQuery(wine):
+def insertQuery(wine,port):
     r = requests.post("http://193.106.55.134:"+port+"/wines", data=wine)
-    print("insert return: ",r.status_code, r.reason)
+    print("insert return: ",r.status_code, r.reason," port: ",port)
 
-def getQuery(wine):# small 3002. big 3001
+def getQuery(wine,port):# small 3002. big 3001
     r = requests.post("http://193.106.55.134:"+port+"/getwines/",data=wine)
-    print("get return: ",r.status_code, r.reason)
+    print("get return: ",r.status_code, r.reason," port: ",port)
 
-def updateQuery(wine1,wine2):
+def updateQuery(wine1,wine2,port):
     headers = {'Content-Type': 'application/json'}
     data = [wine1, wine2]
     r = requests.put(url="http://193.106.55.134:"+port+"/wines",  json=data, headers = headers)
-    print("update return: ",r.status_code, r.reason)
+    print("update return: ",r.status_code, r.reason," port: ",port)
 
 
-def runUpdateQuery(distribution,windowTime):
+def runUpdateQuery(distribution,windowTime,port):
     timeInSec=windowTime*60
     queryInterval=timeInSec/distribution
     for i in range(0, distribution):
@@ -294,25 +294,25 @@ def runUpdateQuery(distribution,windowTime):
         numOfWine1 = random.randint(0, 23)
         numOfWine2 = random.randint(0, 23)
         print("Run update query number  " + str(i)+"...")
-        updateQuery(wines[numOfWine1],wines[numOfWine2])
+        updateQuery(wines[numOfWine1],wines[numOfWine2],port)
 
-def runGetQuery(distribution,windowTime,queryWineSize):
+def runGetQuery(distribution,windowTime,queryWineSize,port):
   timeInSec = windowTime * 60
   queryInterval = timeInSec / distribution
   for i in range(0, distribution):
     time.sleep(queryInterval)
     print("Run get-big query number  "+str(i)+"...")
-    getQuery(wines2[queryWineSize])
+    getQuery(wines2[queryWineSize],port)
 
 
-def runInsertQuery(distribution,windowTime):
+def runInsertQuery(distribution,windowTime,port):
   timeInSec = windowTime * 60
   queryInterval = timeInSec / distribution
   for i in range(0, distribution):
     time.sleep(queryInterval)
     numOfWine1 = random.randint(0, 23)
     print("Run insert query number  "+str(i)+"...")
-    insertQuery(wines[numOfWine1])
+    insertQuery(wines[numOfWine1],port)
 
 def runFunc(query):
     dists=json.loads(sys.argv[1])
@@ -323,28 +323,29 @@ def runFunc(query):
         print(query," iteration: ",i)
         for i in range(0, actionIterations):
           nowtime=datetime.now()
-          initialPort((nowtime-startTime).total_seconds())
+          port=initialPort((nowtime-startTime).total_seconds())
           if (query == "getBig"):
-            runGetQuery(dists[i][0],windowTime,1)
+            runGetQuery(dists[i][0],windowTime,1,port)
           elif (query == "getSmall"):
-            runGetQuery(dists[i][1], windowTime,0)
+            runGetQuery(dists[i][1], windowTime,0,port)
           elif (query == "insert"):
-            runInsertQuery(dists[i][2],windowTime)
+            runInsertQuery(dists[i][2],windowTime,port)
           elif (query == "update"):
-            runUpdateQuery(dists[i][3],windowTime)
+            runUpdateQuery(dists[i][3],windowTime,port)
           else:
             print("Unknown command !!")
 
 def initialPort(time):
     #QUERYING CHEN METHOD
     res=ti.getPrediction(time)
-    if(res==fat):
-      port="3002"
+    if(res=="fat"):
+      return "3002"
     else:
-      port="3001"
+      return "3001"
 
 #RUN MAIN
 if __name__ == '__main__':
+    from datetime import datetime
     startTime=datetime.now()
     p = Pool(4)
     p.map(runFunc, ["getBig","getSmall","insert","update"])
