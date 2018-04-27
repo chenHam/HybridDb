@@ -1,5 +1,5 @@
+from OldFiles import powerSetFinder as psf
 
-import powerSetFinder as psf;
 
 def getColumnsPowerSet(columns):
     return psf.listToPowerset(columns)
