@@ -77,7 +77,7 @@ def main():
     b=datetime.strptime(end_date, "%Y-%m-%d %H:%M:%S.%f")
 
     for dt in hours:
-       range = date_range(a, b, 10, 'seconds')
+       range = date_range(a, b, 30, 'seconds')
 
     range_size = len(range)-1
     i=0
