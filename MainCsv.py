@@ -14,19 +14,22 @@ def ortal_main(mainCsv,hour,df,range,i):
     total = df['RunTime'].sum()
     queries_type = df['QueryType']
 
-    counterS = 0
+    counterS1 = 0
+    counterS2 = 0
     counterU = 0
     counterI = 0
 
     for type in queries_type:
-        if type == 0:
-            counterS+=1
+        if type == 10:
+            counterS1+=1
+        if type == 20:
+            counterS2+=1
         if type == 1:
             counterU+=1
         if type == 2:
             counterI+=1
 
-    mainCsv = mainCsv.append(pd.Series([startTime, counterS, counterU, counterI, total], index=['RunningTime','A','B','C','SumOfRunning']),ignore_index=True)
+    mainCsv = mainCsv.append(pd.Series([startTime, counterS1,counterS2, counterU, counterI, total], index=['RunningTime','A','B','C','D', 'SumOfRunning']),ignore_index=True)
     return mainCsv
 
 # def test():
@@ -58,10 +61,10 @@ def ortal_main(mainCsv,hour,df,range,i):
 
 
 def main():
-    mainCsv = pd.DataFrame(columns=['RunningTime', 'A', 'B', 'C', 'SumOfRunning'])
+    mainCsv = pd.DataFrame(columns=['RunningTime', 'A', 'B', 'C', 'D', 'SumOfRunning'])
     df = pd.read_csv('DataFrame_3001_fat_queries.csv')
 
-    df['QueryType'] = df['Query'].apply(lambda  x: get_query_type(x))
+    df['QueryType'] = df['Query'].apply(lambda x: get_query_type(x))
     df = df[df.QueryType > -1]
     df = df[['StartTime', 'QueryType', 'RunTime']]
     hours = df['StartTime'].unique()
@@ -95,7 +98,20 @@ def get_query_type(query):
     ret_val = -1
     cluster = query.split(" ")
     if (str(cluster[0]).lower() == 'select'):
-        ret_val = 0
+        list=[]
+        start_index = 'select'
+        end_index = 'from'
+        start_index = query.index(start_index)
+        end_index = query.index(end_index)
+        sublist = query[start_index:end_index].split(',')
+        for l in sublist:
+            list.append(l)
+        print(list)
+        size=len(list)
+        if(size>7):
+            ret_val = 10
+        if(size<=7):
+            ret_val = 20
     if (str(cluster[0]).lower() == 'update'):
         ret_val = 1
     if (str(cluster[0]).lower() == 'insert'):
