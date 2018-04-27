@@ -8,7 +8,7 @@ def main():
     column_valuesA=exponential(dfA)
     df.insert(loc=0, column='new_column', value=column_values)
     dfA.insert(loc=0, column='new_column', value=column_valuesA)
-    data = df[['RunningTime','new_column']].plot('RunningTime','new_column',label="Fat",marker='o',color='skyblue')
+    data = df[['RunningTime','new_column']].plot('RunningTime','new_column',label="Fat",marker='',color='skyblue')
     # dataA = dfA[['RunningTime','SumOfRunning']].plot('RunningTime','SumOfRunning',marker='o',color='olive')
     dataA = dfA[['RunningTime','new_column']].plot('RunningTime','new_column',ax=data,label="Thin",marker='', color='olive')
     plt.xlabel("Time from beginning")
@@ -33,3 +33,9 @@ def exponential(df):
                 #     i+=1
     return column_values
 main()
+# date=df['RunningTime']
+    # datelist=[]
+    # for d in date:
+    #     datelist.append(d)
+    # d = datelist[0].split(' ')
+    # d[1].split('-')
