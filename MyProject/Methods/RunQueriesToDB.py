@@ -56,6 +56,9 @@ def runInsertQuery(distribution,windowTime,port):
 
 def runFunc(query):
     startTime = datetime.now()
+    if(len(sys.argv<1)):
+        print("Insert arguments !!!!")
+        exit(1)
     dists=json.loads(sys.argv[1])
     actionIterations=len(dists)
     windowTime = int(sys.argv[2])
