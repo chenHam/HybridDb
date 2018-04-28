@@ -24,10 +24,10 @@ def ortal_main(mainCsv,hour,df,range,i):
             counterS1+=1
         if type == 20:
             counterS2+=1
-        if type == 1:
-            counterU+=1
-        if type == 2:
-            counterI+=1
+        # if type == 1:
+        #     counterU+=1
+        # if type == 2:
+        #     counterI+=1
 
     mainCsv = mainCsv.append(pd.Series([startTime, counterS1,counterS2, counterU, counterI, total], index=['RunningTime','A','B','C','D', 'SumOfRunning']),ignore_index=True)
     return mainCsv
@@ -77,7 +77,7 @@ def main():
     b=datetime.strptime(end_date, "%Y-%m-%d %H:%M:%S.%f")
 
     for dt in hours:
-       range = date_range(a, b, 30, 'seconds')
+       range = date_range(a, b, 10, 'minutes')
 
     range_size = len(range)-1
     i=0
@@ -112,10 +112,10 @@ def get_query_type(query):
             ret_val = 10
         if(size<=7):
             ret_val = 20
-    if (str(cluster[0]).lower() == 'update'):
-        ret_val = 1
-    if (str(cluster[0]).lower() == 'insert'):
-        ret_val = 2
+    # if (str(cluster[0]).lower() == 'update'):
+    #     ret_val = 1
+    # if (str(cluster[0]).lower() == 'insert'):
+    #     ret_val = 2
 
     return ret_val
 
