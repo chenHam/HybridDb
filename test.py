@@ -56,9 +56,11 @@ from apscheduler.schedulers.background import BackgroundScheduler
 class ScheduledTask():
 
     def my_listener(self, mevent):
-        print(str(mevent))
+        #print(str(mevent))
+        print('listner: ', datetime.datetime.now(), str(self.counter.get()))
         self.counter.inc()
         if(self.counter.get() >= self.maxIterations):
+            print('calling shutdown: ', str(datetime.datetime.now()))
             self.sched.shutdown()
 
     def __init__(self, maxIterations):
@@ -73,8 +75,10 @@ class ScheduledTask():
 
     def isDone(self):
         if self.counter.get() < self.maxIterations:
+            print('not dont yet')
             return False
         else:
+            print('done')
             return True
 
 # sc = ScheduledTask(40)
