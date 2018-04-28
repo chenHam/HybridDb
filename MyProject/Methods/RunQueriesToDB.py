@@ -8,6 +8,7 @@ import MyProject.Methods.GetLearningModifyTime as tfm
 import datetime
 from datetime import datetime
 import MyProject.FilesAndInputs.winesArrayAsJson as wines
+from test import ScheduledTask
 
 def insertQuery(wine,port):
     r = requests.post("http://193.106.55.134:"+port+"/wines", data=wine)
@@ -37,10 +38,21 @@ def runUpdateQuery(distribution,windowTime,port):
 def runGetQuery(distribution,windowTime,queryWineSize,port):
   timeInSec = windowTime * 60
   queryInterval = timeInSec / distribution
-  for i in range(0, distribution):
-    time.sleep(queryInterval)
-    print("Run get-big query number  "+str(i)+"...")
-    getQuery(wines.wines2[queryWineSize],port)
+
+  sc = ScheduledTask(distribution)
+
+  sc.runTask(getQuery, queryInterval, args = [wines.wines2[queryWineSize],port])
+
+  while sc.isDone() == False:
+      time.sleep(1)
+
+  # for i in range(0, distribution):
+  #   time.sleep(queryInterval)
+  #   print("Run get-big query number  "+str(i)+"...")
+  #   getQuery(wines.wines2[queryWineSize],port)
+
+
+
 
 
 def runInsertQuery(distribution,windowTime,port):
