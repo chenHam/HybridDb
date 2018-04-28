@@ -10,15 +10,15 @@ if __name__ == '__main__':
     # RUN HTTP QUERIES TO WINE CELLAR
     runQueries.Run("3001")
     # GET FIRST LOGS
-    logs.Run("../FilesAndInputs/DataFrame_3001_fat_queries.csv")
+    logs.Run("../FilesAndInputs/DataFrame_3001_smart_queries.csv")
     # CLEAN DB
-    cleanDb.clean()
-    # RUN HTTP QUERIES TO WINE CELLAR
-    runQueries.Run("3002")
-    # GET SECOND LOGS
-    logs.Run("../FilesAndInputs/DataFrame_3002_thin_queries.csv")
-    # CREATE A GRAPH
-    getGraph.main()
+    # cleanDb.clean()
+    # # RUN HTTP QUERIES TO WINE CELLAR
+    # runQueries.Run("3002")
+    # # GET SECOND LOGS
+    # logs.Run("../FilesAndInputs/DataFrame_3002_thin_queries.csv")
+    # # CREATE A GRAPH
+    # getGraph.main()
     # CLUSTER
     #getCluster.Run()
     print("Finish to run all. Exit now")
