@@ -9,6 +9,7 @@ import datetime
 from datetime import datetime
 import MyProject.FilesAndInputs.winesArrayAsJson as wines
 
+
 def insertQuery(wine,port):
     r = requests.post("http://193.106.55.134:"+port+"/wines", data=wine)
     print("insert return: ",r.status_code, r.reason," port: ",port)
@@ -88,7 +89,6 @@ def initialPort(time):
         return "3001"
 
 def Run(thePort):
-    global port
     port=thePort
     print("----------Start to Run all the queries----------")
     p = Pool(2)
