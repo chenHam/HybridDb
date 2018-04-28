@@ -1,6 +1,6 @@
 import pandas as pd;
 from datetime import date, datetime, timedelta
-
+import os.path
 
 
 
@@ -62,7 +62,9 @@ def ortal_main(mainCsv,hour,df,range,i):
 
 def main():
     mainCsv = pd.DataFrame(columns=['RunningTime', 'A', 'B', 'C', 'D', 'SumOfRunning'])
-    df = pd.read_csv("../FilesAndInputs/test.csv")
+    my_path = os.path.abspath(os.path.dirname(__file__))
+    path = os.path.join(my_path, "../FilesAndInputs/test.csv")
+    df = pd.read_csv(path)
 
     df['QueryType'] = df['Query'].apply(lambda x: get_query_type(x))
     df = df[df.QueryType > -1]
@@ -90,7 +92,9 @@ def main():
             new_df = df.loc[mask]
             print(new_df)
             mainCsv = ortal_main(mainCsv,hour, new_df,range,i)
-            mainCsv.to_csv("../FilesAndInputs/testMINI.csv", index=False)
+            my_path = os.path.abspath(os.path.dirname(__file__))
+            path = os.path.join(my_path, "../FilesAndInputs/testMINI.csv")
+            mainCsv.to_csv(path, index=False)
             i += 1
 
 
@@ -137,4 +141,3 @@ def date_range(start_date, end_date, increment, period):
 #     if(date<b):
 #         return
 
-main()

@@ -86,9 +86,7 @@ def initialPort(time):
         return "3001"
 
 def Run():
+    print("Start to Run all the queries")
     p = Pool(2)
     p.map(runFunc, ["getBig","getSmall"]) # OPTIONAL TO ADD :: ,"insert","update"
     print("Finish to Run all the queries")
-
-
-Run()

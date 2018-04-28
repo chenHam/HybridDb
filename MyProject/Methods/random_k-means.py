@@ -77,6 +77,5 @@ def cluster_by_shows(file_name):
     return main_df
 
 
-Run()
 
 

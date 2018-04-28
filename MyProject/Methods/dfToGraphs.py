@@ -1,9 +1,14 @@
 import matplotlib.pyplot as plt
 import pandas as pd
+import os.path
 
 def main():
-    df = pd.read_csv('mainCsv-fat-1.csv')
-    dfA = pd.read_csv('mainCsv-thin-1.csv')
+    my_path = os.path.abspath(os.path.dirname(__file__))
+    path = os.path.join(my_path, 'mainCsv-fat-1.csv')
+    df = pd.read_csv(path)
+    my_path = os.path.abspath(os.path.dirname(__file__))
+    path = os.path.join(my_path, 'mainCsv-thin-1.csv')
+    dfA = pd.read_csv(path)
     column_values=exponential(df)
     column_valuesA=exponential(dfA)
     df.insert(loc=0, column='new_column', value=column_values)
@@ -32,7 +37,6 @@ def exponential(df):
                 #     column_values.append(list[i])
                 #     i+=1
     return column_values
-main()
 # date=df['RunningTime']
     # datelist=[]
     # for d in date:
