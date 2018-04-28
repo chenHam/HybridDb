@@ -5,8 +5,8 @@ import pandas as pd
 
 def Run():
     # experiment num 1
-    file_name_fat = '/Users/barbrownshtein/PycharmProjects/FinalProject/HybridDb/MyProject/FilesAndInputs/Clustering_fat.csv'
-    file_name_thin = '/Users/barbrownshtein/PycharmProjects/FinalProject/HybridDb/MyProject/FilesAndInputs/Clustering_thin.csv'
+    file_name_fat = '../FilesAndInputs/Clustering_fat.csv'
+    file_name_thin = '../FilesAndInputs/Clustering_thin.csv'
     #file_name_thin = 'mainCsv-thin-1.csv'
 
     df_fat = cluster_by_shows(file_name_fat)[['RunningTime', 'SumOfRunning']]

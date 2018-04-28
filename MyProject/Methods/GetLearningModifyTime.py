@@ -4,7 +4,7 @@ def getPrediction(time):
     time = int(time)
     time=fixTimeNumber(time)
 
-    main_df = pd.read_csv("/Users/barbrownshtein/PycharmProjects/FinalProject/HybridDb/MyProject/FilesAndInputs/runningTimeDistribution.csv")
+    main_df = pd.read_csv("../FilesAndInputs/runningTimeDistribution.csv")
     res = main_df.loc[main_df['RunningTime'] == time]
     if res is None:
         return "fat"

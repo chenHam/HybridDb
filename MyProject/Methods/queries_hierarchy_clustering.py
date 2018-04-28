@@ -6,7 +6,7 @@ from matplotlib import pyplot as plt
 
 pysql = lambda q: pdsql.sqldf(q, globals())
 
-final_df = pd.read_csv('Clustering.csv')
+final_df = pd.read_csv('../FilesAndInputs/Clustering.csv')
 
 #final_dF.drop(finalDF.index[0], inplace=True)
 
