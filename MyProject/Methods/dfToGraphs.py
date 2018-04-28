@@ -4,13 +4,15 @@ import os.path
 
 def main():
     my_path = os.path.abspath(os.path.dirname(__file__))
-    path = os.path.join(my_path, 'mainCsv-fat-1.csv')
+    path = os.path.join(my_path, "../FilesAndInputs/mainCsv-fat.csv")
     df = pd.read_csv(path)
     my_path = os.path.abspath(os.path.dirname(__file__))
-    path = os.path.join(my_path, 'mainCsv-thin-1.csv')
+    path = os.path.join(my_path, "../FilesAndInputs/mainCsv-thin.csv")
     dfA = pd.read_csv(path)
     column_values=exponential(df)
+    print(column_values)
     column_valuesA=exponential(dfA)
+    print(column_valuesA)
     df.insert(loc=0, column='new_column', value=column_values)
     dfA.insert(loc=0, column='new_column', value=column_valuesA)
     data = df[['RunningTime','new_column']].plot('RunningTime','new_column',label="Fat",marker='',color='skyblue')
@@ -31,6 +33,7 @@ def exponential(df):
         if(i<len(list)):
             if (i != 0 ):
                 sum = column_values[i - 1] + list[i]
+                print(sum,column_values[i - 1],list[i])
                 column_values.append(sum)
                 i += 1
                 # if(i==0):

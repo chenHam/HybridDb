@@ -14,7 +14,7 @@ def insertQuery(wine,port):
     print("insert return: ",r.status_code, r.reason," port: ",port)
 
 def getQuery(wine,port):# small 3002. big 3001
-    r = requests.post("http://193.106.55.134:"+port+"/getwines/",data=wine)
+    r = requests.post("http://193.106.55.134:"+port+"/getwines/",data=wine, timeout = 999999)
     print("get return: ",r.status_code, r.reason," port: ",port)
 
 def updateQuery(wine1,wine2,port):

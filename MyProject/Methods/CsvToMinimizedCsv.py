@@ -60,10 +60,10 @@ def ortal_main(mainCsv,hour,df,range,i):
 #         sum+=ltoint
 
 
-def main():
+def main(name1,name2):
     mainCsv = pd.DataFrame(columns=['RunningTime', 'A', 'B', 'C', 'D', 'SumOfRunning'])
     my_path = os.path.abspath(os.path.dirname(__file__))
-    path = os.path.join(my_path, "../FilesAndInputs/test.csv")
+    path = os.path.join(my_path, name2)
     df = pd.read_csv(path)
 
     df['QueryType'] = df['Query'].apply(lambda x: get_query_type(x))
@@ -79,7 +79,7 @@ def main():
     b=datetime.strptime(end_date, "%Y-%m-%d %H:%M:%S.%f")
 
     for dt in hours:
-       range = date_range(a, b, 10, 'minutes')
+       range = date_range(a, b, 10, 'seconds')
 
     range_size = len(range)-1
     i=0
@@ -93,7 +93,7 @@ def main():
             print(new_df)
             mainCsv = ortal_main(mainCsv,hour, new_df,range,i)
             my_path = os.path.abspath(os.path.dirname(__file__))
-            path = os.path.join(my_path, "../FilesAndInputs/testMINI.csv")
+            path = os.path.join(my_path, name1)
             mainCsv.to_csv(path, index=False)
             i += 1
 
@@ -141,6 +141,8 @@ def date_range(start_date, end_date, increment, period):
 #     if(date<b):
 #         return
 
-def Run():
-    main()
-    gr.main()
+# def Run():
+#     main()
+#     gr.main()
+#
+# Run()
