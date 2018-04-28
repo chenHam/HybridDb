@@ -1,7 +1,7 @@
 import pandas as pd;
 from datetime import date, datetime, timedelta
 import os.path
-
+import MyProject.Methods.dfToGraphs as gr
 
 
 def ortal_main(mainCsv,hour,df,range,i):
@@ -141,3 +141,6 @@ def date_range(start_date, end_date, increment, period):
 #     if(date<b):
 #         return
 
+def Run():
+    main()
+    gr.main()

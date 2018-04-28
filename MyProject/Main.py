@@ -1,15 +1,24 @@
 # MAIN PROGRAM
 import MyProject.Methods.RunQueriesToDB as runQueries
-import MyProject.Methods.ReadLogsFromDBToDataFrame as graph
+import MyProject.Methods.ReadLogsFromDBToDataFrame as logs
 import MyProject.Methods.CleanDb as cleanDb
+import MyProject.Methods.CsvToMinimizedCsv as getGraph
 if __name__ == '__main__':
     print("Start to run main function")
     # CLEAN DB
     cleanDb.clean()
     # RUN HTTP QUERIES TO WINE CELLAR
-    runQueries.Run()
-    # GET ALL QUERIES LOG AS A FILE AND CREATE A GRAPH
-    graph.Run()
+    runQueries.Run(3001)
+    # GET LOGS
+    logs.Run("../FilesAndInputs/DataFrame_3001_fat_queries.csv")
+    # CLEAN DB
+    cleanDb.clean()
+    # RUN HTTP QUERIES TO WINE CELLAR
+    runQueries.Run(3002)
+    # GET LOGS
+    logs.Run("../FilesAndInputs/DataFrame_3002_thin_queries.csv")
+    # CREATE A GRAPH
+    getGraph.main()
     # CLUSTER
     #getCluster.Run()
     print("Finish to run all. Exit now")

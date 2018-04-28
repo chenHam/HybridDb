@@ -67,7 +67,8 @@ def runFunc(query):
         print(query," iteration: ",i)
         for i in range(0, actionIterations):
           nowtime=datetime.now()
-          port=initialPort((nowtime-startTime).total_seconds())
+          if(sys.argv[4]==1):
+            port=initialPort((nowtime-startTime).total_seconds())
           if (query == "getBig"):
             runGetQuery(dists[i][0],windowTime,1,port)
           elif (query == "getSmall"):
@@ -88,8 +89,10 @@ def initialPort(time):
         print("initial port: 3001")
         return "3001"
 
-def Run():
-    print("Start to Run all the queries")
+def Run(thePort):
+    global port
+    port=thePort
+    print("----------Start to Run all the queries----------")
     p = Pool(2)
     p.map(runFunc, ["getBig","getSmall"]) # OPTIONAL TO ADD :: ,"insert","update"
-    print("Finish to Run all the queries")
+    print("----------Finish to Run all the queries----------")

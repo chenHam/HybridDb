@@ -15,6 +15,6 @@ def getPrediction(time):
         return res['cluster_type'].values[0]
 
 def fixTimeNumber(time):
-    num=((time/10)*10)+10
+    num=(int((time/10))*10)+10
     return num
 
