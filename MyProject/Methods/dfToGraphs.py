@@ -22,14 +22,11 @@ def main():
     dfA.insert(loc=0, column='new_column', value=column_valuesA)
     dfS.insert(loc=0, column='new_column', value=column_valuesS)
     data = df[['RunningTime','new_column']].plot('RunningTime','new_column',label="Fat",marker='',color='skyblue')
-    # dataA = dfA[['RunningTime','SumOfRunning']].plot('RunningTime','SumOfRunning',marker='o',color='olive')
-    dataA = dfA[['RunningTime','new_column']].plot('RunningTime','new_column',ax=data,label="Thin",marker='', color='olive')
+    dfA[['RunningTime','new_column']].plot('RunningTime','new_column',ax=data,label="Thin",marker='', color='olive')
     dfS[['RunningTime','new_column']].plot('RunningTime','new_column',ax=data,label="Smart",marker='', color='pink')
-
     plt.xlabel("Time from beginning")
     plt.ylabel("Total time completed")
     plt.show()
-
 
 def exponential(df):
     list = df['SumOfRunning']
@@ -44,13 +41,4 @@ def exponential(df):
                 print(sum,column_values[i - 1],list[i])
                 column_values.append(sum)
                 i += 1
-                # if(i==0):
-                #     column_values.append(list[i])
-                #     i+=1
     return column_values
-# date=df['RunningTime']
-    # datelist=[]
-    # for d in date:
-    #     datelist.append(d)
-    # d = datelist[0].split(' ')
-    # d[1].split('-')
