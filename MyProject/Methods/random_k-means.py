@@ -3,10 +3,10 @@ from sklearn.metrics import silhouette_samples, silhouette_score
 import pandas as pd
 
 
-def main():
+def Run():
     # experiment num 1
-    file_name_fat = 'Clustering_fat.csv'
-    file_name_thin = 'Clustering_thin.csv'
+    file_name_fat = '/Users/barbrownshtein/PycharmProjects/FinalProject/HybridDb/MyProject/FilesAndInputs/Clustering_fat.csv'
+    file_name_thin = '/Users/barbrownshtein/PycharmProjects/FinalProject/HybridDb/MyProject/FilesAndInputs/Clustering_thin.csv'
     #file_name_thin = 'mainCsv-thin-1.csv'
 
     df_fat = cluster_by_shows(file_name_fat)[['RunningTime', 'SumOfRunning']]
@@ -19,7 +19,7 @@ def main():
 
     df_result = final_df.groupby('RunningTime', as_index=False).apply(func).reset_index(drop=True)
 
-    df_result.to_csv('Result.csv', index=False)
+    df_result.to_csv('runningTimeDistribution.csv', index=False)
 
 
 def func(group):
@@ -33,7 +33,7 @@ def cluster_by_shows(file_name):
     main_df['RunningTime'] = pd.DatetimeIndex(main_df['RunningTime']).hour + (pd.DatetimeIndex(main_df['RunningTime']).minute) / 100
     main_df['RunningTime'] = (main_df.index + 1) * 10
     print(main_df)
-    df = main_df[['RunningTime', 'A', 'B', 'C', 'D']]
+    df = main_df[['RunningTime', 'A', 'B']]
     # df['RunningTime'] = pd.DatetimeIndex(df['RunningTime']).hour + (pd.DatetimeIndex(df['RunningTime']).minute)/100
 
     range_n_clusters = [2, 3, 4, 5]
@@ -77,6 +77,6 @@ def cluster_by_shows(file_name):
     return main_df
 
 
-main()
+Run()
 
 

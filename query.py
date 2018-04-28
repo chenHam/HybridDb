@@ -1,9 +1,8 @@
+import random
+
 import pymysql
-import pandas as pd
-import random
-import MysqlProvider
-import powerSetFinder as psf
-import random
+
+from OldFiles import powerSetFinder as psf
 
 conn = pymysql.connect(host="193.106.55.134", port=3306, user='root', password='root', db='winecellar')
 

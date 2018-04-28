@@ -1,7 +1,6 @@
-import powerSetFinder as psf;
 import csv;
-from sklearn import preprocessing;
 
+from OldFiles import powerSetFinder as psf
 
 # columnsNames = ['name', 'year', 'grapes', 'country', 'region', 'description', 'picture']
 
