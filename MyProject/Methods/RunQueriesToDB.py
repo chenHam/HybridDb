@@ -8,8 +8,6 @@ import MyProject.Methods.GetLearningModifyTime as tfm
 import datetime
 from datetime import datetime
 import MyProject.FilesAndInputs.winesArrayAsJson as wines
-minSecondsToRand=1
-maxSecondsToRand=3
 
 def insertQuery(wine,port):
     r = requests.post("http://193.106.55.134:"+port+"/wines", data=wine)
@@ -90,9 +88,8 @@ def initialPort(time):
         print("initial port: 3001")
         return "3001"
 
-def Run(thePort):
-    # global port
-    # port=thePort
+def Run():
+    #global port
     print("----------Start to Run all the queries----------")
     p = Pool(2)
     p.map(runFunc, ["getBig","getSmall"]) # OPTIONAL TO ADD :: ,"insert","update"
