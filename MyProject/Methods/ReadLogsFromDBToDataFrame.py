@@ -1,9 +1,9 @@
 import pymysql
 import pandas as pd
-import MyProject.Methods.CsvToMinimizedCsv as mini
-import MyProject.Methods.dfToGraphs as gr
+import os.path
 
-def Main():
+
+def Main(fileName):
     conn = pymysql.connect(host="193.106.55.134", port=3306, user='root', password='root', db='winecellar')
     df = pd.DataFrame(columns=['StartTime','RunTime','Query'])
 
@@ -32,18 +32,17 @@ def Main():
     for r in results:
         list.append(r)
 
-
     df = pd.DataFrame(list,columns=['StartTime','RunTime','Query'])
-    df.to_csv("../FilesAndInputs/DataFrame_3001_thin_queries.csv")
+    my_path = os.path.abspath(os.path.dirname(__file__))
+    path = os.path.join(my_path, fileName)
+    df.to_csv(path)
 
     print(df)
     conn.close()
 
+def Run(fileName):
+    Main(fileName)
 
-def Run():
-    Main()
-    mini.main()
-    gr.main()
 
 
 
