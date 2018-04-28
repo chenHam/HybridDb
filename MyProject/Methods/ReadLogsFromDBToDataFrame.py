@@ -1,7 +1,7 @@
 import pymysql
 import pandas as pd
-import MyProject.Methods.CsvToMinimizedCsv as mini
-import MyProject.Methods.dfToGraphs as gr
+# import MyProject.Methods.CsvToMinimizedCsv as mini
+# import MyProject.Methods.dfToGraphs as gr
 import datetime
 
 def Main():
@@ -35,7 +35,7 @@ def Main():
 
 
     df = pd.DataFrame(list,columns=['StartTime','RunTime','Query'])
-    df.to_csv("DataFrame_3001_thin_queries.csv")
+    df.to_csv("../FilesAndInputs/test.csv")
 
     print(df)
     conn.close()
@@ -43,8 +43,8 @@ def Main():
 
 def Run():
     Main()
-    mini.main()
-    gr.main()
+    # mini.main()
+    # gr.main()
 
 
 Main()

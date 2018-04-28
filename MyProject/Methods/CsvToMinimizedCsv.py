@@ -62,7 +62,7 @@ def ortal_main(mainCsv,hour,df,range,i):
 
 def main():
     mainCsv = pd.DataFrame(columns=['RunningTime', 'A', 'B', 'C', 'D', 'SumOfRunning'])
-    df = pd.read_csv('DataFrame_3001_fat_queries.csv')
+    df = pd.read_csv("../FilesAndInputs/test.csv")
 
     df['QueryType'] = df['Query'].apply(lambda x: get_query_type(x))
     df = df[df.QueryType > -1]
@@ -90,7 +90,7 @@ def main():
             new_df = df.loc[mask]
             print(new_df)
             mainCsv = ortal_main(mainCsv,hour, new_df,range,i)
-            mainCsv.to_csv("mainCsv-fat-1.csv", index=False)
+            mainCsv.to_csv("../FilesAndInputs/testMINI.csv", index=False)
             i += 1
 
 
