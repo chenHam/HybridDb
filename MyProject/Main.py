@@ -8,18 +8,18 @@ if __name__ == '__main__':
     # CLEAN DB
     cleanDb.clean()
     # RUN HTTP QUERIES TO WINE CELLAR
-    runQueries.Run()
+    runQueries.Run("3001")
     # GET LOGS
     logs.Run("../FilesAndInputs/DataFrame_3001_fat_queries.csv")
-    # # CLEAN DB
-    # cleanDb.clean()
-    # # RUN HTTP QUERIES TO WINE CELLAR
-    # runQueries.Run()
-    # # GET LOGS
-    # logs.Run("../FilesAndInputs/DataFrame_3002_thin_queries.csv")
-    # # CREATE A GRAPH
-    # getGraph.main()
-    # # CLUSTER
-    # #getCluster.Run()
-    # print("Finish to run all. Exit now")
-    #
+    # CLEAN DB
+    cleanDb.clean()
+    # RUN HTTP QUERIES TO WINE CELLAR
+    runQueries.Run("3002")
+    # GET LOGS
+    logs.Run("../FilesAndInputs/DataFrame_3002_thin_queries.csv")
+    # CREATE A GRAPH
+    getGraph.main()
+    # CLUSTER
+    #getCluster.Run()
+    print("Finish to run all. Exit now")
+
