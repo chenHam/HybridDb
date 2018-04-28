@@ -9,13 +9,13 @@ if __name__ == '__main__':
     cleanDb.clean()
     # RUN HTTP QUERIES TO WINE CELLAR
     runQueries.Run("3001")
-    # GET LOGS
+    # GET FIRST LOGS
     logs.Run("../FilesAndInputs/DataFrame_3001_fat_queries.csv")
     # CLEAN DB
     cleanDb.clean()
     # RUN HTTP QUERIES TO WINE CELLAR
     runQueries.Run("3002")
-    # GET LOGS
+    # GET SECOND LOGS
     logs.Run("../FilesAndInputs/DataFrame_3002_thin_queries.csv")
     # CREATE A GRAPH
     getGraph.main()
