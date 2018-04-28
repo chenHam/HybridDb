@@ -23,6 +23,8 @@ def Main(fileName):
     df = pd.DataFrame(list,columns=['StartTime','RunTime','Query'])
     my_path = os.path.abspath(os.path.dirname(__file__))
     path = os.path.join(my_path, fileName)
+    #df_old =
+    #df_new = pd.concat([df, df_old], join='outer')
     df.to_csv(path)
     print(df)
     conn.close()
