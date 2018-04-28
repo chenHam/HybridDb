@@ -52,7 +52,7 @@ def runInsertQuery(distribution,windowTime,port):
     print("Run insert query number  "+str(i)+"...")
     insertQuery(wines.wines[numOfWine1],port)
 
-def runFunc(query):
+def runFunc(params):
     startTime = datetime.now()
     if(len(sys.argv)<2):
         print("Insert arguments !!!!")
@@ -62,18 +62,20 @@ def runFunc(query):
     windowTime = int(sys.argv[2])
     numOfIterations=int(sys.argv[3])
     for i in range(0,numOfIterations):
-        print(query," iteration: ",i)
+        print(params[0]," iteration: ",i)
         for i in range(0, actionIterations):
           nowtime=datetime.now()
           if(sys.argv[4]=="1"):
             port=initialPort((nowtime-startTime).total_seconds())
-          if (query == "getBig"):
+          else:
+              port=params[1]
+          if (params[0] == "getBig"):
             runGetQuery(dists[i][0],windowTime,1,port)
-          elif (query == "getSmall"):
+          elif (params[0] == "getSmall"):
             runGetQuery(dists[i][1], windowTime,0,port)
-          elif (query == "insert"):
+          elif (params[0] == "insert"):
             runInsertQuery(dists[i][2],windowTime,port)
-          elif (query == "update"):
+          elif (params[0] == "update"):
             runUpdateQuery(dists[i][3],windowTime,port)
           else:
             print("Unknown command !!")
@@ -88,9 +90,7 @@ def initialPort(time):
         return "3001"
 
 def Run(thePort):
-    global port
-    port=thePort
     print("----------Start to Run all the queries----------")
     p = Pool(2)
-    p.map(runFunc, ["getBig","getSmall"]) # OPTIONAL TO ADD :: ,"insert","update"
+    p.map(runFunc, [["getBig",thePort],["getSmall",thePort]]) # OPTIONAL TO ADD :: ,"insert","update"
     print("----------Finish to Run all the queries----------")
