@@ -4,11 +4,14 @@ import csv
 import sys
 def getPrediction(time):
     time = int(time)
+    print('get prediction time: ', time)
     time=fixTimeNumber(time)
+    print('fixed time: ', time)
     my_path = os.path.abspath(os.path.dirname(__file__))
     path = os.path.join(my_path, "../FilesAndInputs/runningTimeDistribution.csv")
     main_df = pd.read_csv(path)
     res = main_df.loc[main_df['RunningTime'] == time]
+    print('res: ', res)
     if res is None:
         return "fat"
     else:
