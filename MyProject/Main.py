@@ -22,6 +22,8 @@ if __name__ == '__main__':
     # GET SECOND LOGS
     logs.Run("../FilesAndInputs/DataFrame_3002_thin_queries.csv")
     mini.main("../FilesAndInputs/mainCsv-thin.csv","../FilesAndInputs/DataFrame_3002_thin_queries.csv")
+    # SMART
+    mini.main("../FilesAndInputs/mainCsv-smart.csv","../FilesAndInputs/DataFrame_3001_smart_queries.csv")
     # CREATE A GRAPH
     getGraphs.main()
     # CLUSTER
