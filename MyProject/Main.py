@@ -11,7 +11,7 @@ if __name__ == '__main__':
     # # CLEAN DB
     # cleanDb.clean()
     # # RUN HTTP QUERIES TO WINE CELLAR
-    # runQueries.Run("3001")
+    #runQueries.Run("3001")
     # # GET FIRST LOGS
     # logs.Run("../FilesAndInputs/DataFrame_3001_fat_queries.csv")
     # mini.main("../FilesAndInputs/mainCsv-fat.csv","../FilesAndInputs/DataFrame_3001_fat_queries.csv")
@@ -20,8 +20,8 @@ if __name__ == '__main__':
     # # RUN HTTP QUERIES TO WINE CELLAR
     # runQueries.Run("3002")
     # # GET SECOND LOGS
-    logs.Run("../FilesAndInputs/DataFrame_3002_thin_queries.csv")
-    mini.main("../FilesAndInputs/mainCsv-thin.csv","../FilesAndInputs/DataFrame_3002_thin_queries.csv")
+    # logs.Run("../FilesAndInputs/DataFrame_3002_thin_queries.csv")
+    # mini.main("../FilesAndInputs/mainCsv-thin.csv","../FilesAndInputs/DataFrame_3002_thin_queries.csv")
     # SMART
     # logs.Run("../FilesAndInputs/DataFrame_3001_smart_queries.csv")
     # mini.main("../FilesAndInputs/mainCsv-smart.csv","../FilesAndInputs/DataFrame_3001_smart_queries.csv")

@@ -43,4 +43,4 @@ def exponential(df):
                 i += 1
     return column_values
 
-main()
+# main()
