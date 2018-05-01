@@ -3,6 +3,16 @@ from sklearn.metrics import silhouette_samples, silhouette_score
 import pandas as pd
 
 
+class X:
+    def __init__(self):
+        self.model = KMeans(n_clusters=n_clusters_max)
+
+    def predict(self, df):
+        predict = self.model.predict(df)
+
+
+
+
 def Run():
     # experiment num 1
     file_name_fat = '../FilesAndInputs/Clustering_fat.csv'
