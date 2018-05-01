@@ -7,3 +7,4 @@ def clean():
     cursor.execute("truncate table  performance_schema.events_statements_history_long;")
     conn.close()
     print("----------finish to clean db..----------")
+

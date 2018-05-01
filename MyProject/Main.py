@@ -9,12 +9,12 @@ import MyProject.Methods.dfToGraphs as getGraphs
 if __name__ == '__main__':
     print("Start to run main function")
     # # CLEAN DB
-    # cleanDb.clean()
+    #cleanDb.clean()
     # # RUN HTTP QUERIES TO WINE CELLAR
-    # runQueries.Run("3001")
+    #runQueries.Run("3001")
     # # GET FIRST LOGS
-    # logs.Run("../FilesAndInputs/DataFrame_3001_fat_queries.csv")
-    # mini.main("../FilesAndInputs/mainCsv-fat.csv","../FilesAndInputs/DataFrame_3001_fat_queries.csv")
+    #logs.Run("../FilesAndInputs/DataFrame_3001_fat_queries.csv")
+    #mini.main("../FilesAndInputs/mainCsv-fat.csv","../FilesAndInputs/DataFrame_3001_fat_queries.csv")
     # CLEAN DB
     # cleanDb.clean()
     # # RUN HTTP QUERIES TO WINE CELLAR
