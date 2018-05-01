@@ -4,11 +4,12 @@ import pandas as pd
 
 
 class X:
-    def __init__(self):
+    def __init__(self, n_clusters_max):
         self.model = KMeans(n_clusters=n_clusters_max)
 
     def predict(self, df):
         predict = self.model.predict(df)
+        return predict
 
 
 
@@ -29,6 +30,16 @@ def Run():
 
     df_result = final_df.groupby('RunningTime', as_index=False).apply(func).reset_index(drop=True)
 
+    df_result['distribution'] = 'none'
+
+    for i in range(0, 19):
+        cluster_type = df_result.iloc[i]['cluster_type']
+        if (cluster_type == 'fat'):
+            a_shows = df_fat.iloc[i]['A']
+            b_shows = df_fat.iloc[i]['B']
+        df_result = df_result.set_value(i, 'distribution', value= a_shows + ',' + b_shows)
+
+
     df_result.to_csv('runningTimeDistribution.csv', index=False)
 
 
@@ -43,7 +54,7 @@ def cluster_by_shows(file_name):
     main_df['RunningTime'] = pd.DatetimeIndex(main_df['RunningTime']).hour + (pd.DatetimeIndex(main_df['RunningTime']).minute) / 100
     main_df['RunningTime'] = (main_df.index + 1) * 10
     print(main_df)
-    df = main_df[['RunningTime', 'A', 'B', 'C']]
+    df = main_df[['RunningTime', 'A', 'B']]
     # df['RunningTime'] = pd.DatetimeIndex(df['RunningTime']).hour + (pd.DatetimeIndex(df['RunningTime']).minute)/100
 
     range_n_clusters = [2, 3, 4, 5]
