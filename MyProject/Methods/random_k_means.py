@@ -204,8 +204,8 @@ class RandomKMeans:
 
         res = main_df.loc[main_df['RunningTime'] == time]
 
-        if value == res['behaviourDistribution'][0]:
-            return res['technologyRecomendation']
+        if value == res['behaviourDistribution'].values[0]:
+            return res['technologyRecomendation'].values[0]
         else:
             return 'T1'
         #

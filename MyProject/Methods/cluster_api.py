@@ -16,7 +16,7 @@ def predict():
     print('start predict')
     obj = request.json
     print('obj: ' + json.dumps(request.json))
-    response = cluster.predict(obj.runningTime, obj.aCount, obj.bCount)
+    response = cluster.getPrediction(obj['runningTime'], obj['aCount'], obj['bCount'])
     print("response: " + str(response))
 
     return response
