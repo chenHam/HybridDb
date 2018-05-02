@@ -5,21 +5,54 @@ import os.path
 
 def Run():
     # experiment num 1
-    file_name_fat = '../FilesAndInputs/Clustering_fat.csv'
-    file_name_thin = '../FilesAndInputs/Clustering_thin.csv'
+    file_name_fat = '../FilesAndInputs/mainCsv-fat.csv'
+    file_name_thin = '../FilesAndInputs/mainCsv-thin.csv'
     # file_name_thin = 'mainCsv-thin-1.csv'
 
-    df_fat = cluster_by_shows(file_name_fat)[['RunningTime', 'SumOfRunning', 'behaviourDistribution']]
+    # df_fat = cluster_by_shows(file_name_fat)[['RunningTime', 'SumOfRunning', 'behaviourDistribution']]
+    df_fat = pd.read_csv(file_name_fat)
+    df_fat['RunningTime'] = (df_fat.index + 1)
+    df_fat = [['SumOfRunning', 'behaviourDistribution']]
     df_fat['technologyRecomendation'] = 'T1'
     # df_fat['D'] = 'D'
     # df_fat['behaviourDistribution'] = df_fat[['D','behaviourDistribution']]
-    df_thin = cluster_by_shows(file_name_thin)[['RunningTime', 'SumOfRunning', 'behaviourDistribution']]
+    # df_thin = cluster_by_shows(file_name_thin)[['RunningTime', 'SumOfRunning', 'behaviourDistribution']]
+    df_thin = pd.read_csv(file_name_thin)
+    df_thin['RunningTime'] = (df_thin.index + 1)
+    df_thin = [['SumOfRunning', 'behaviourDistribution']]
     df_thin['technologyRecomendation'] = 'T2'
 
     final_df = pd.concat([df_fat, df_thin])
     print(final_df)
 
-    df_result = final_df.groupby('RunningTime', as_index=False).apply(self.func).reset_index(drop=True)
+    df_fat['A'] = pd.read_csv(file_name_fat)['A']
+    df_fat['B'] = pd.read_csv(file_name_fat)['B']
+
+    df_thin['A'] = pd.read_csv(file_name_thin)['A']
+    df_thin['B'] = pd.read_csv(file_name_thin)['B']
+
+
+    df_result = final_df.groupby('RunningTime', as_index=False).apply(func).reset_index(drop=True)
+    df_result['distribution'] = 'none'
+
+    for i in range(0, 15):
+        # a_shows = '2'
+        # b_shows = '4'
+        cluster_type = df_result.iloc[i]['technologyRecomendation']
+        if (cluster_type == 'T1'):
+            a_shows = df_fat.iloc[i]['A']
+            b_shows = df_fat.iloc[i]['B']
+        if (cluster_type == 'T2'):
+            a_shows = df_thin.iloc[i]['A']
+            b_shows = df_thin.iloc[i]['B']
+
+        if (a_shows > b_shows + 2):
+            val ='D1'
+        elif (b_shows > a_shows + 2):
+            val = 'D2'
+        else:
+            val = 'D3'
+        df_result = df_result.set_value(i, 'distribution', value=val)
 
     # df_fat['A'] = pd.read_csv(file_name_fat)['A']
     # df_fat['B'] = pd.read_csv(file_name_fat)['B']
@@ -46,7 +79,6 @@ def Run():
 
     df_result.to_csv('runningTimeDistribution.csv', index=False)
 
-
 def func(group):
     return group.loc[group['SumOfRunning'] == group['SumOfRunning'].min()]
 
@@ -55,9 +87,9 @@ def cluster_by_shows(file_name):
     main_df = pd.read_csv(file_name)
     # df = pd.read_csv('Clustering.csv')
 
-    main_df['RunningTime'] = pd.DatetimeIndex(main_df['RunningTime']).hour + (pd.DatetimeIndex(
-        main_df['RunningTime']).minute) / 100
-    main_df['RunningTime'] = (main_df.index + 1) * 10
+    # main_df['RunningTime'] = pd.DatetimeIndex(main_df['RunningTime']).hour + (pd.DatetimeIndex(
+    #     main_df['RunningTime']).minute) / 100
+    main_df['RunningTime'] = (main_df.index + 1)
     print(main_df)
     # df = main_df[['RunningTime', 'A', 'B']]
     df = main_df[['A', 'B']]

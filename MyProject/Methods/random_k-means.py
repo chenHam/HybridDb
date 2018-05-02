@@ -6,14 +6,37 @@ import os.path
 
 class X:
     def __init__(self):
-        self.df, self.n_clusters_max = self.get_n_max_cluster('../FilesAndInputs/Clustering_fat.csv')
+        self.df, self.n_clusters_max = self.get_n_max_cluster('../FilesAndInputs/mainCsv-fat.csv')
         self.model = KMeans(n_clusters=self.n_clusters_max)
         self.model.fit(self.df)
 
     def predict(self, a_shows, b_shows):
-        df = '[' + a_shows + ',' + b_shows + ']'
+        df = '[' + str(a_shows) + ',' + str(b_shows) + ']'
         predict = self.model.predict(df)
         return predict
+
+    def Run(self):
+        # experiment num 1
+        file_name_fat = '../FilesAndInputs/mainCsv-fat.csv'
+        file_name_thin = '../FilesAndInputs/mainCsv-thin.csv'
+        # file_name_thin = 'mainCsv-thin-1.csv'
+
+        df_fat = self.cluster_by_shows(file_name_fat)[['RunningTime', 'SumOfRunning', 'behaviourDistribution']]
+        df_fat['technologyRecomendation'] = 'T1'
+        # df_fat['D'] = 'D'
+        # df_fat['behaviourDistribution'] = df_fat[['D','behaviourDistribution']]
+        df_thin = self.cluster_by_shows(file_name_thin)[['RunningTime', 'SumOfRunning', 'behaviourDistribution']]
+        df_thin['technologyRecomendation'] = 'T2'
+
+        final_df = pd.concat([df_fat, df_thin])
+        print(final_df)
+
+        df_result = final_df.groupby('RunningTime', as_index=False).apply(self.func).reset_index(drop=True)
+
+        df_result.to_csv('runningTimeDistribution.csv', index=False)
+
+    def func(self, group):
+        return group.loc[group['SumOfRunning'] == group['SumOfRunning'].min()]
 
     def run(self):
         predict = self.model.predict(self.df)
@@ -34,8 +57,7 @@ class X:
 
         df_fat = self.cluster_by_shows(file_name_fat)[['RunningTime', 'SumOfRunning', 'behaviourDistribution']]
         df_fat['technologyRecomendation'] = 'T1'
-        # df_fat['D'] = 'D'
-        # df_fat['behaviourDistribution'] = df_fat[['D','behaviourDistribution']]
+
         df_thin = self.cluster_by_shows(file_name_thin)[['RunningTime', 'SumOfRunning', 'behaviourDistribution']]
         df_thin['technologyRecomendation'] = 'T2'
 
@@ -43,29 +65,6 @@ class X:
         print(final_df)
 
         df_result = final_df.groupby('RunningTime', as_index=False).apply(self.func).reset_index(drop=True)
-
-        # df_fat['A'] = pd.read_csv(file_name_fat)['A']
-        # df_fat['B'] = pd.read_csv(file_name_fat)['B']
-        #
-        # df_thin['A'] = pd.read_csv(file_name_thin)['A']
-        # df_thin['B'] = pd.read_csv(file_name_thin)['B']
-
-        # df_result['distribution'] = 'none'
-        # df_result.to_csv('runningTimeDistribution.csv', index=True)
-        #
-        #
-        # for i in range(0, 20):
-        #     # a_shows = '2'
-        #     # b_shows = '4'
-        #     cluster_type = df_result.iloc[i]['technologyRecomendation']
-        #     if (cluster_type == 'fat'):
-        #         a_shows = df_fat.iloc[i]['A']
-        #         b_shows = df_fat.iloc[i]['B']
-        #     if (cluster_type == 'thin'):
-        #         a_shows = df_thin.iloc[i]['A']
-        #         b_shows = df_thin.iloc[i]['B']
-        #     val = str(a_shows) + ',' + str(b_shows)
-        #     df_result = df_result.set_value(i, 'distribution', value=val)
 
         df_result.to_csv('runningTimeDistribution.csv', index=False)
 
@@ -115,14 +114,16 @@ class X:
         print("n_cluster_max = ", n_clusters_max)
         return (df,n_clusters_max)
 
-    def cluster_by_shows(self, file_name):
+    def cluster_by_shows(self,file_name):
         main_df = pd.read_csv(file_name)
-        main_df['RunningTime'] = pd.DatetimeIndex(main_df['RunningTime']).hour + (pd.DatetimeIndex(
-            main_df['RunningTime']).minute) / 100
-        main_df['RunningTime'] = (main_df.index + 1) * 10
+
+        main_df['RunningTime'] = (main_df.index + 1)
         print(main_df)
-        # df = main_df[['RunningTime', 'A', 'B']]
         df = main_df[['A', 'B']]
+
+        range_n_clusters = [2, 3, 4, 5]
+        # range_n_clusters = [2, 3, 4, 5, 6]
+
         model = KMeans(n_clusters=self.n_clusters_max)
         model.fit(df)
         predict = model.predict(df)
@@ -131,12 +132,38 @@ class X:
         print(df)
         df['D'] = 'D'
 
-        self.main_df['behaviourDistribution'] = df[['D', 'behaviourDistribution']].astype(str).sum(axis=1)
+        main_df['behaviourDistribution'] = df[['D', 'behaviourDistribution']].astype(str).sum(axis=1)
         # main_df['behaviourDistribution'] = df['behaviourDistribution']
-        print(self.main_df)
-        return self.main_df
+        print(main_df)
+        return main_df
 
-    def getPrediction(self,time,distribution):
+    # def bla(self):
+    # #
+    # # df_fat['A'] = pd.read_csv(file_name_fat)['A']
+    # # df_fat['B'] = pd.read_csv(file_name_fat)['B']
+    # #
+    # # df_thin['A'] = pd.read_csv(file_name_thin)['A']
+    # # df_thin['B'] = pd.read_csv(file_name_thin)['B']
+    #
+    # df_result = pd.read_csv('runningTimeDistribution.csv')
+    # # df_result['distribution'] = 'none'
+    # # df_result.to_csv('runningTimeDistribution.csv', index=True)
+    #
+    #
+    # for i in range(0, 15):
+    #     # a_shows = '2'
+    #     # b_shows = '4'
+    #     D = df_result.iloc[i]['behaviourDistribution']
+    #     if (D == 'D1'):
+    #         a_shows = df_fat.iloc[i]['A']
+    #         b_shows = df_fat.iloc[i]['B']
+    #     if (cluster_type == 'thin'):
+    #         a_shows = df_thin.iloc[i]['A']
+    #         b_shows = df_thin.iloc[i]['B']
+    #     val = str(a_shows) + ',' + str(b_shows)
+    #     df_result = df_result.set_value(i, 'distribution', value=val)
+
+    def getPrediction(self,time):
         time = int(time)
         print('get prediction time: ', time)
         time = self.fixTimeNumber(time)
@@ -156,6 +183,6 @@ class X:
         return num
 
 kmeans = X()
-kmeans.run()
+kmeans.Run()
 
 

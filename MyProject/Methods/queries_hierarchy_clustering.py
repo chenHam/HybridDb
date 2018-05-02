@@ -6,7 +6,8 @@ from matplotlib import pyplot as plt
 
 pysql = lambda q: pdsql.sqldf(q, globals())
 
-final_df = pd.read_csv('../FilesAndInputs/Clustering.csv')
+final_df = pd.read_csv('../FilesAndInputs/mainCsv-fat.csv')
+final_df = final_df[['A', 'B']]
 
 #final_dF.drop(finalDF.index[0], inplace=True)
 
@@ -15,3 +16,4 @@ Z = hierarchy.linkage(final_df, 'ward')
 # Plot with Custom leaves
 hierarchy.dendrogram(Z, leaf_rotation=90, leaf_font_size=5, labels=final_df.index)
 plt.show()
+print()
