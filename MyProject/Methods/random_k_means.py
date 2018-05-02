@@ -1,14 +1,17 @@
+
 from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_samples, silhouette_score
 import pandas as pd
 import os.path
 
 
-class X:
+class RandomKMeans:
     def __init__(self):
-        self.df, self.n_clusters_max = self.get_n_max_cluster('../FilesAndInputs/mainCsv-fat.csv')
-        self.model = KMeans(n_clusters=self.n_clusters_max)
-        self.model.fit(self.df)
+        # self.df, self.n_clusters_max = self.get_n_max_cluster('../FilesAndInputs/mainCsv-fat.csv')
+        # self.model = KMeans(n_clusters=self.n_clusters_max)
+        # self.model.fit(self.df)
+
+        self.Run()
 
     def predict(self, a_shows, b_shows):
         df = '[' + str(a_shows) + ',' + str(b_shows) + ']'
@@ -118,16 +121,30 @@ class X:
         main_df = pd.read_csv(file_name)
 
         main_df['RunningTime'] = (main_df.index + 1)
-        print(main_df)
-        df = main_df[['A', 'B']]
+        #print(main_df)
 
+
+        df = main_df[['A', 'B']]
+        df['A'] = (df['A'] - df['A'].min()) / df['A'].max() - df['A'].min()
+        df['B'] = (df['B'] - df['B'].min()) / df['B'].max() - df['B'].min()
+
+        df['C'] = (df['A'] - df['B'])
+        df['C'] = (df['C'] - df['C'].min()) / (df['C'].max() - df['C'].min())
+
+        print(df)
+
+        df = df.drop(columns=['A','B'])
+
+        print(df)
+        print(df.columns.values)
         range_n_clusters = [2, 3, 4, 5]
         # range_n_clusters = [2, 3, 4, 5, 6]
 
-        model = KMeans(n_clusters=self.n_clusters_max)
-        model.fit(df)
-        predict = model.predict(df)
-        x = model.fit_predict(df)
+        #self.model = KMeans(n_clusters=self.n_clusters_max)
+        self.model = KMeans(n_clusters=3)
+        #model.fit(df)
+        #predict = model.predict(df)
+        x = self.model.fit_predict(df)
         df['behaviourDistribution'] = x
         print(df)
         df['D'] = 'D'
@@ -163,26 +180,44 @@ class X:
     #     val = str(a_shows) + ',' + str(b_shows)
     #     df_result = df_result.set_value(i, 'distribution', value=val)
 
-    def getPrediction(self,time):
+    def getPrediction(self,time, aCount, bCount):
         time = int(time)
+
         print('get prediction time: ', time)
-        time = self.fixTimeNumber(time)
+        #time = self.fixTimeNumber(time)
         print('fixed time: ', time)
         my_path = os.path.abspath(os.path.dirname(__file__))
-        path = os.path.join(my_path, "../FilesAndInputs/runningTimeDistribution.csv")
+        path = os.path.join(my_path, "../Methods/runningTimeDistribution.csv")
         main_df = pd.read_csv(path)
+
+        df = pd.DataFrame(data={'A': [aCount], 'B': [bCount]})
+
+        df['A'] = (df['A'] - df['A'].min()) / df['A'].max() - df['A'].min()
+        df['B'] = (df['B'] - df['B'].min()) / df['B'].max() - df['B'].min()
+
+        df['C'] = (df['A'] - df['B'])
+        #df['C'] = (df['C'] - df['C'].min()) / (df['C'].max() - df['C'].min())
+
+        df = df.drop(columns=['A', 'B'])
+
+        value = 'D' + str(self.model.predict(df)[0])
+
         res = main_df.loc[main_df['RunningTime'] == time]
-        print('res: ', res)
-        if res is None:
-            return "fat"
+
+        if value == res['behaviourDistribution'][0]:
+            return res['technologyRecomendation']
         else:
-            return res['cluster_type'].values[0]
+            return 'T1'
+        #
+        # print('res: ', res)
+        # if res is None:
+        #     return "fat"
+        # else:
+        #     return res['cluster_type'].values[0]
 
     def fixTimeNumber(time):
         num = (int((time / 10)) * 10) + 10
-        return num
-
-kmeans = X()
-kmeans.Run()
+#         return num
+#
 
 

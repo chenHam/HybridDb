@@ -1,15 +1,15 @@
 from flask import Flask, request, json
 
 #FLASK_APP=cluster_api.py flask run
+from MyProject.Methods.random_k_means import RandomKMeans
 
 app = Flask(__name__)
 
 @app.route("/init", methods=['POST'])
 def init():
     global cluster
-    #cluster = RandromKMeans();
-    cluster = 1
-    return "1"
+    cluster = RandomKMeans()
+    return "ok"
 
 @app.route("/predict", methods=['POST'])
 def predict():
