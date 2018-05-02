@@ -41,7 +41,7 @@ def main(name1,name2):
     end_date = hours[size-1]
     b = datetime.strptime(end_date, "%Y-%m-%d %H:%M:%S.%f")
     for dt in hours:
-       range = date_range(a, b, 10, 'seconds')
+       range = date_range(a, b, 1, 'minutes')
     range_size = len(range)-1
     i = 0
     for hour in hours:
@@ -59,6 +59,7 @@ def main(name1,name2):
 
 def get_query_type(query):
     ret_val = -1
+    query = query.lower()
     cluster = query.split(" ")
     if (str(cluster[0]).lower() == 'select'):
         list=[]
@@ -71,9 +72,9 @@ def get_query_type(query):
             list.append(l)
         print(list)
         size=len(list)
-        if(size>7):
+        if(size>2):
             ret_val = 10
-        if(size<=7):
+        if(size<=2):
             ret_val = 20
     # if (str(cluster[0]).lower() == 'update'):
     #     ret_val = 1
