@@ -1,6 +1,7 @@
 from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_samples, silhouette_score
 import pandas as pd
+import os.path
 
 
 class X:
@@ -11,91 +12,125 @@ class X:
         predict = self.model.predict(df)
         return predict
 
+    def Run(self):
+        # experiment num 1
+        file_name_fat = '../FilesAndInputs/Clustering_fat.csv'
+        file_name_thin = '../FilesAndInputs/Clustering_thin.csv'
+        # file_name_thin = 'mainCsv-thin-1.csv'
 
+        df_fat = self.cluster_by_shows(file_name_fat)[['RunningTime', 'SumOfRunning', 'behaviourDistribution']]
+        df_fat['technologyRecomendation'] = 'T1'
+        # df_fat['D'] = 'D'
+        # df_fat['behaviourDistribution'] = df_fat[['D','behaviourDistribution']]
+        df_thin = self.cluster_by_shows(file_name_thin)[['RunningTime', 'SumOfRunning', 'behaviourDistribution']]
+        df_thin['technologyRecomendation'] = 'T2'
 
+        final_df = pd.concat([df_fat, df_thin])
+        print(final_df)
 
-def Run():
-    # experiment num 1
-    file_name_fat = '../FilesAndInputs/Clustering_fat.csv'
-    file_name_thin = '../FilesAndInputs/Clustering_thin.csv'
-    #file_name_thin = 'mainCsv-thin-1.csv'
+        df_result = final_df.groupby('RunningTime', as_index=False).apply(self.func).reset_index(drop=True)
 
-    df_fat = cluster_by_shows(file_name_fat)[['RunningTime', 'SumOfRunning']]
-    df_fat['cluster_type'] = 'fat'
-    df_thin = cluster_by_shows(file_name_thin)[['RunningTime', 'SumOfRunning']]
-    df_thin['cluster_type'] = 'thin'
+        # df_fat['A'] = pd.read_csv(file_name_fat)['A']
+        # df_fat['B'] = pd.read_csv(file_name_fat)['B']
+        #
+        # df_thin['A'] = pd.read_csv(file_name_thin)['A']
+        # df_thin['B'] = pd.read_csv(file_name_thin)['B']
 
-    final_df = pd.concat([df_fat, df_thin])
-    print(final_df)
+        # df_result['distribution'] = 'none'
+        # df_result.to_csv('runningTimeDistribution.csv', index=True)
+        #
+        #
+        # for i in range(0, 20):
+        #     # a_shows = '2'
+        #     # b_shows = '4'
+        #     cluster_type = df_result.iloc[i]['technologyRecomendation']
+        #     if (cluster_type == 'fat'):
+        #         a_shows = df_fat.iloc[i]['A']
+        #         b_shows = df_fat.iloc[i]['B']
+        #     if (cluster_type == 'thin'):
+        #         a_shows = df_thin.iloc[i]['A']
+        #         b_shows = df_thin.iloc[i]['B']
+        #     val = str(a_shows) + ',' + str(b_shows)
+        #     df_result = df_result.set_value(i, 'distribution', value=val)
 
-    df_result = final_df.groupby('RunningTime', as_index=False).apply(func).reset_index(drop=True)
+        df_result.to_csv('runningTimeDistribution.csv', index=False)
 
-    df_result['distribution'] = 'none'
+    def func(self, group):
+        return group.loc[group['SumOfRunning'] == group['SumOfRunning'].min()]
 
-    for i in range(0, 19):
-        cluster_type = df_result.iloc[i]['cluster_type']
-        if (cluster_type == 'fat'):
-            a_shows = df_fat.iloc[i]['A']
-            b_shows = df_fat.iloc[i]['B']
-        df_result = df_result.set_value(i, 'distribution', value= a_shows + ',' + b_shows)
+    def cluster_by_shows(self, file_name):
+        main_df = pd.read_csv(file_name)
+        # df = pd.read_csv('Clustering.csv')
 
+        main_df['RunningTime'] = pd.DatetimeIndex(main_df['RunningTime']).hour + (pd.DatetimeIndex(
+            main_df['RunningTime']).minute) / 100
+        main_df['RunningTime'] = (main_df.index + 1) * 10
+        print(main_df)
+        # df = main_df[['RunningTime', 'A', 'B']]
+        df = main_df[['A', 'B']]
 
-    df_result.to_csv('runningTimeDistribution.csv', index=False)
+        # df['RunningTime'] = pd.DatetimeIndex(df['RunningTime']).hour + (pd.DatetimeIndex(df['RunningTime']).minute)/100
 
+        range_n_clusters = [2, 3, 4, 5]
+        # range_n_clusters = [2, 3, 4, 5, 6]
 
-def func(group):
-    return group.loc[group['SumOfRunning'] == group['SumOfRunning'].min()]
+        silhouette_avg_max = 0
+        n_clusters_max = 0
 
+        for n_clusters in range_n_clusters:
+            # Initialize the clusterer with n_clusters value and a random generator
+            # seed of 10 for reproducibility.
+            clusterer = KMeans(n_clusters=n_clusters, random_state=10)
+            cluster_labels = clusterer.fit_predict(df)
 
-def cluster_by_shows(file_name):
-    main_df = pd.read_csv(file_name)
-    # df = pd.read_csv('Clustering.csv')
+            # The silhouette_score gives the average value for all the samples.
+            # This gives a perspective into the density and separation of the formed
+            # clusters
+            silhouette_avg = silhouette_score(df, cluster_labels)
 
-    main_df['RunningTime'] = pd.DatetimeIndex(main_df['RunningTime']).hour + (pd.DatetimeIndex(main_df['RunningTime']).minute) / 100
-    main_df['RunningTime'] = (main_df.index + 1) * 10
-    print(main_df)
-    df = main_df[['RunningTime', 'A', 'B']]
-    # df['RunningTime'] = pd.DatetimeIndex(df['RunningTime']).hour + (pd.DatetimeIndex(df['RunningTime']).minute)/100
+            print("For n_clusters =", n_clusters,
+                  "The average silhouette_score is :", silhouette_avg)
 
-    range_n_clusters = [2, 3, 4, 5]
-    # range_n_clusters = [2, 3, 4, 5, 6]
+            if silhouette_avg_max < silhouette_avg:
+                silhouette_avg_max = silhouette_avg
+                n_clusters_max = n_clusters
 
-    silhouette_avg_max = 0
-    n_clusters_max = 0
+            # Compute the silhouette scores for each sample
+            sample_silhouette_values = silhouette_samples(df, cluster_labels)
 
-    for n_clusters in range_n_clusters:
-        # Initialize the clusterer with n_clusters value and a random generator
-        # seed of 10 for reproducibility.
-        clusterer = KMeans(n_clusters=n_clusters, random_state=10)
-        cluster_labels = clusterer.fit_predict(df)
+        print("n_cluster_max = ", n_clusters_max)
 
-        # The silhouette_score gives the average value for all the samples.
-        # This gives a perspective into the density and separation of the formed
-        # clusters
-        silhouette_avg = silhouette_score(df, cluster_labels)
+        model = KMeans(n_clusters=n_clusters_max)
+        model.fit(df)
+        predict = model.predict(df)
+        x = model.fit_predict(df)
+        df['behaviourDistribution'] = x
+        print(df)
+        df['D'] = 'D'
 
-        print("For n_clusters =", n_clusters,
-              "The average silhouette_score is :", silhouette_avg)
+        main_df['behaviourDistribution'] = df[['D', 'behaviourDistribution']].astype(str).sum(axis=1)
+        # main_df['behaviourDistribution'] = df['behaviourDistribution']
+        print(main_df)
+        return main_df
 
-        if silhouette_avg_max < silhouette_avg:
-            silhouette_avg_max = silhouette_avg
-            n_clusters_max = n_clusters
+    def getPrediction(self,time,distribution):
+        time = int(time)
+        print('get prediction time: ', time)
+        time = self.fixTimeNumber(time)
+        print('fixed time: ', time)
+        my_path = os.path.abspath(os.path.dirname(__file__))
+        path = os.path.join(my_path, "../FilesAndInputs/runningTimeDistribution.csv")
+        main_df = pd.read_csv(path)
+        res = main_df.loc[main_df['RunningTime'] == time]
+        print('res: ', res)
+        if res is None:
+            return "fat"
+        else:
+            return res['cluster_type'].values[0]
 
-        # Compute the silhouette scores for each sample
-        sample_silhouette_values = silhouette_samples(df, cluster_labels)
-
-    print("n_cluster_max = ", n_clusters_max)
-
-    model = KMeans(n_clusters=n_clusters_max)
-    model.fit(df)
-    predict = model.predict(df)
-    x = model.fit_predict(df)
-    df['cluster'] = x
-    print(df)
-
-    main_df['cluster'] = df['cluster']
-    print(main_df)
-    return main_df
+    def fixTimeNumber(time):
+        num = (int((time / 10)) * 10) + 10
+        return num
 
 
 
