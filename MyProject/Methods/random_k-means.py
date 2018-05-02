@@ -6,14 +6,27 @@ import os.path
 
 class X:
     def __init__(self):
-        n_clusters_max =
-        self.model = KMeans(n_clusters=n_clusters_max)
+        self.df, self.n_clusters_max = self.get_n_max_cluster('../FilesAndInputs/Clustering_fat.csv')
+        self.model = KMeans(n_clusters=self.n_clusters_max)
+        self.model.fit(self.df)
 
-    def predict(self, df):
+    def predict(self, a_shows, b_shows):
+        df = '[' + a_shows + ',' + b_shows + ']'
         predict = self.model.predict(df)
         return predict
 
-    def Run(self):
+    def run(self):
+        predict = self.model.predict(self.df)
+        x = self.model.fit_predict(self.df)
+        self.df['behaviourDistribution'] = x
+        print(self.df)
+        self.df['D'] = 'D'
+
+        self.main_df['behaviourDistribution'] = self.df[['D', 'behaviourDistribution']].astype(str).sum(axis=1)
+        # main_df['behaviourDistribution'] = df['behaviourDistribution']
+        print(self.main_df)
+        # return self.main_df
+
         # experiment num 1
         file_name_fat = '../FilesAndInputs/Clustering_fat.csv'
         file_name_thin = '../FilesAndInputs/Clustering_thin.csv'
@@ -59,16 +72,16 @@ class X:
     def func(self, group):
         return group.loc[group['SumOfRunning'] == group['SumOfRunning'].min()]
 
-    def get_n_max_cluster(self,file_name):
-        main_df = pd.read_csv(file_name)
+    def get_n_max_cluster(self, file_name):
+        self.main_df = pd.read_csv(file_name)
         # df = pd.read_csv('Clustering.csv')
 
-        main_df['RunningTime'] = pd.DatetimeIndex(main_df['RunningTime']).hour + (pd.DatetimeIndex(
-            main_df['RunningTime']).minute) / 100
-        main_df['RunningTime'] = (main_df.index + 1) * 10
-        print(main_df)
+        self.main_df['RunningTime'] = pd.DatetimeIndex(self.main_df['RunningTime']).hour + (pd.DatetimeIndex(
+            self.main_df['RunningTime']).minute) / 100
+        self.main_df['RunningTime'] = (self.main_df.index + 1) * 10
+        print(self.main_df)
         # df = main_df[['RunningTime', 'A', 'B']]
-        df = main_df[['A', 'B']]
+        df = self.main_df[['A', 'B']]
 
         # df['RunningTime'] = pd.DatetimeIndex(df['RunningTime']).hour + (pd.DatetimeIndex(df['RunningTime']).minute)/100
 
@@ -100,10 +113,17 @@ class X:
             sample_silhouette_values = silhouette_samples(df, cluster_labels)
 
         print("n_cluster_max = ", n_clusters_max)
-        return n_clusters_max
+        return (df,n_clusters_max)
 
-    def cluster_by_shows(self, n_clusters_max):
-        model = KMeans(n_clusters=n_clusters_max)
+    def cluster_by_shows(self, file_name):
+        main_df = pd.read_csv(file_name)
+        main_df['RunningTime'] = pd.DatetimeIndex(main_df['RunningTime']).hour + (pd.DatetimeIndex(
+            main_df['RunningTime']).minute) / 100
+        main_df['RunningTime'] = (main_df.index + 1) * 10
+        print(main_df)
+        # df = main_df[['RunningTime', 'A', 'B']]
+        df = main_df[['A', 'B']]
+        model = KMeans(n_clusters=self.n_clusters_max)
         model.fit(df)
         predict = model.predict(df)
         x = model.fit_predict(df)
@@ -111,10 +131,10 @@ class X:
         print(df)
         df['D'] = 'D'
 
-        main_df['behaviourDistribution'] = df[['D', 'behaviourDistribution']].astype(str).sum(axis=1)
+        self.main_df['behaviourDistribution'] = df[['D', 'behaviourDistribution']].astype(str).sum(axis=1)
         # main_df['behaviourDistribution'] = df['behaviourDistribution']
-        print(main_df)
-        return main_df
+        print(self.main_df)
+        return self.main_df
 
     def getPrediction(self,time,distribution):
         time = int(time)
@@ -136,5 +156,6 @@ class X:
         return num
 
 kmeans = X()
+kmeans.run()
 
 

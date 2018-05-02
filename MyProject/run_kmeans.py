@@ -1,2 +1,2 @@
-import MyProject.Methods.r
+import MyProject.Methods.
 kmeans = X()
