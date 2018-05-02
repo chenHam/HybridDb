@@ -3,6 +3,17 @@ from sklearn.metrics import silhouette_samples, silhouette_score
 import pandas as pd
 
 
+class X:
+    def __init__(self, n_clusters_max):
+        self.model = KMeans(n_clusters=n_clusters_max)
+
+    def predict(self, df):
+        predict = self.model.predict(df)
+        return predict
+
+
+
+
 def Run():
     # experiment num 1
     file_name_fat = '../FilesAndInputs/Clustering_fat.csv'
@@ -18,6 +29,16 @@ def Run():
     print(final_df)
 
     df_result = final_df.groupby('RunningTime', as_index=False).apply(func).reset_index(drop=True)
+
+    df_result['distribution'] = 'none'
+
+    for i in range(0, 19):
+        cluster_type = df_result.iloc[i]['cluster_type']
+        if (cluster_type == 'fat'):
+            a_shows = df_fat.iloc[i]['A']
+            b_shows = df_fat.iloc[i]['B']
+        df_result = df_result.set_value(i, 'distribution', value= a_shows + ',' + b_shows)
+
 
     df_result.to_csv('runningTimeDistribution.csv', index=False)
 

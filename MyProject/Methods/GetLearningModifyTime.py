@@ -2,7 +2,8 @@ import pandas as pd
 import os.path
 import csv
 import sys
-def getPrediction(time):
+
+def getPrediction(time,distribution):
     time = int(time)
     print('get prediction time: ', time)
     time=fixTimeNumber(time)
