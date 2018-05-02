@@ -5,7 +5,8 @@ import os.path
 
 
 class X:
-    def __init__(self, n_clusters_max):
+    def __init__(self):
+        n_clusters_max =
         self.model = KMeans(n_clusters=n_clusters_max)
 
     def predict(self, df):
@@ -58,7 +59,7 @@ class X:
     def func(self, group):
         return group.loc[group['SumOfRunning'] == group['SumOfRunning'].min()]
 
-    def cluster_by_shows(self, file_name):
+    def get_n_max_cluster(self,file_name):
         main_df = pd.read_csv(file_name)
         # df = pd.read_csv('Clustering.csv')
 
@@ -99,7 +100,9 @@ class X:
             sample_silhouette_values = silhouette_samples(df, cluster_labels)
 
         print("n_cluster_max = ", n_clusters_max)
+        return n_clusters_max
 
+    def cluster_by_shows(self, n_clusters_max):
         model = KMeans(n_clusters=n_clusters_max)
         model.fit(df)
         predict = model.predict(df)
@@ -132,6 +135,6 @@ class X:
         num = (int((time / 10)) * 10) + 10
         return num
 
-
+kmeans = X()
 
 
