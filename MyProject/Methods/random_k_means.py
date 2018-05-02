@@ -20,8 +20,10 @@ class RandomKMeans:
 
     def Run(self):
         # experiment num 1
-        file_name_fat = '../FilesAndInputs/mainCsv-fat.csv'
-        file_name_thin = '../FilesAndInputs/mainCsv-thin.csv'
+        my_path = os.path.abspath(os.path.dirname(__file__))
+
+        file_name_fat = os.path.join(my_path, '../FilesAndInputs/mainCsv-fat.csv')
+        file_name_thin = os.path.join(my_path, "../FilesAndInputs/mainCsv-thin.csv")
         # file_name_thin = 'mainCsv-thin-1.csv'
 
         df_fat = self.cluster_by_shows(file_name_fat)[['RunningTime', 'SumOfRunning', 'behaviourDistribution']]
@@ -36,7 +38,7 @@ class RandomKMeans:
 
         df_result = final_df.groupby('RunningTime', as_index=False).apply(self.func).reset_index(drop=True)
 
-        df_result.to_csv('runningTimeDistribution.csv', index=False)
+        df_result.to_csv(os.path.join(my_path,'../FilesAndInputs/runningTimeDistribution.csv'), index=False)
 
     def func(self, group):
         return group.loc[group['SumOfRunning'] == group['SumOfRunning'].min()]
@@ -53,9 +55,12 @@ class RandomKMeans:
         print(self.main_df)
         # return self.main_df
 
+        my_path = os.path.abspath(os.path.dirname(__file__))
+
         # experiment num 1
-        file_name_fat = '../FilesAndInputs/Clustering_fat.csv'
-        file_name_thin = '../FilesAndInputs/Clustering_thin.csv'
+        file_name_fat = os.path.join(my_path, '../FilesAndInputs/mainCsv-fat.csv')
+        file_name_thin = os.path.join(my_path, "../FilesAndInputs/mainCsv-thin.csv")
+
         # file_name_thin = 'mainCsv-thin-1.csv'
 
         df_fat = self.cluster_by_shows(file_name_fat)[['RunningTime', 'SumOfRunning', 'behaviourDistribution']]
