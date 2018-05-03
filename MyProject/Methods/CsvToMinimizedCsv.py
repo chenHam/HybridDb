@@ -38,10 +38,14 @@ def main(name1,name2):
     hours.sort()
     start_date = hours[0]
     a = datetime.strptime(start_date, "%Y-%m-%d %H:%M:%S.%f")
+    aS = a.second
     end_date = hours[size-1]
     b = datetime.strptime(end_date, "%Y-%m-%d %H:%M:%S.%f")
+    bM = b.minute+1
+    bSecond = b.replace(second=aS)
+
     for dt in hours:
-       range = date_range(a, b, 1, 'minutes')
+       range = date_range(a, bSecond, 59, 'seconds')
     range_size = len(range)-1
     i = 0
     for hour in hours:
@@ -49,6 +53,7 @@ def main(name1,name2):
             new_df = pd.DataFrame()
             df['StartTime'] = pd.to_datetime(df['StartTime'])
             mask = (df['StartTime'] > range[i]) & (df['StartTime'] <= range[i+1])
+            # | df['StartTime'] == range[i])
             new_df = df.loc[mask]
             print(new_df)
             mainCsv = ortal_main(mainCsv,hour, new_df,range,i)
