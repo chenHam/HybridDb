@@ -22,6 +22,7 @@ def ortal_main(mainCsv,hour,df,range,i):
         #     counterU+=1
         # if type == 2:
         #     counterI+=1
+
     mainCsv = mainCsv.append(pd.Series([startTime, counterS1,counterS2, counterU, counterI, total], index=['RunningTime','A','B','C','D', 'SumOfRunning']),ignore_index=True)
     return mainCsv
 
