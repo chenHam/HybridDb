@@ -41,8 +41,8 @@ def main(name1,name2):
     aS = a.second
     end_date = hours[size-1]
     b = datetime.strptime(end_date, "%Y-%m-%d %H:%M:%S.%f")
-    bS = b.second
-    bSecond = b.replace(second=aS, microsecond=0)
+    bM = b.minute+1
+    bSecond = b.replace(second=aS, microsecond=0, minute=bM)
 
     for dt in hours:
        range = date_range(a, bSecond, 1, 'minutes')
