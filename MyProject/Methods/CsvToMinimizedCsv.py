@@ -38,10 +38,14 @@ def main(name1,name2):
     hours.sort()
     start_date = hours[0]
     a = datetime.strptime(start_date, "%Y-%m-%d %H:%M:%S.%f")
+    aS = a.second
     end_date = hours[size-1]
     b = datetime.strptime(end_date, "%Y-%m-%d %H:%M:%S.%f")
+    bS = b.second
+    bSecond = b.replace(second=aS, microsecond=0)
+
     for dt in hours:
-       range = date_range(a, b, 1, 'minutes')
+       range = date_range(a, bSecond, 1, 'minutes')
     range_size = len(range)-1
     i = 0
     for hour in hours:
