@@ -16,6 +16,13 @@ def predict():
     print('start predict')
     obj = request.json
     print('obj: ' + json.dumps(request.json))
+
+    # obj = {
+    #     "runningTime":2,
+    #     "aCount":6,
+    #     "bCount":1
+    # }
+
     response = cluster.getPrediction(obj['runningTime'], obj['aCount'], obj['bCount'])
     print("response: " + str(response))
 
@@ -24,4 +31,6 @@ def predict():
 
 if __name__ == '__main__':
     app.debug = True
+    init()
     app.run(port=3000)
+    # predict()

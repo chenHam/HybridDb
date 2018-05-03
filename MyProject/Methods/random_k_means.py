@@ -1,4 +1,4 @@
-
+import math
 from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_samples, silhouette_score
 import pandas as pd
@@ -13,10 +13,10 @@ class RandomKMeans:
 
         self.Run()
 
-    def predict(self, a_shows, b_shows):
-        df = '[' + str(a_shows) + ',' + str(b_shows) + ']'
-        predict = self.model.predict(df)
-        return predict
+    # def predict(self, a_shows, b_shows):
+    #     df = '[' + str(a_shows) + ',' + str(b_shows) + ']'
+    #     predict = self.model.predict(df)
+    #     return predict
 
     def Run(self):
         # experiment num 1
@@ -38,43 +38,46 @@ class RandomKMeans:
 
         df_result = final_df.groupby('RunningTime', as_index=False).apply(self.func).reset_index(drop=True)
 
-        df_result.to_csv(os.path.join(my_path,'../FilesAndInputs/runningTimeDistribution.csv'), index=False)
+        print(df_result)
+
+        #df_result.to_csv(os.path.join(my_path,'../FilesAndInputs/runningTimeDistribution.csv'), index=False)
+        self.df_result = df_result
 
     def func(self, group):
         return group.loc[group['SumOfRunning'] == group['SumOfRunning'].min()]
 
-    def run(self):
-        predict = self.model.predict(self.df)
-        x = self.model.fit_predict(self.df)
-        self.df['behaviourDistribution'] = x
-        print(self.df)
-        self.df['D'] = 'D'
-
-        self.main_df['behaviourDistribution'] = self.df[['D', 'behaviourDistribution']].astype(str).sum(axis=1)
-        # main_df['behaviourDistribution'] = df['behaviourDistribution']
-        print(self.main_df)
-        # return self.main_df
-
-        my_path = os.path.abspath(os.path.dirname(__file__))
-
-        # experiment num 1
-        file_name_fat = os.path.join(my_path, '../FilesAndInputs/mainCsv-fat.csv')
-        file_name_thin = os.path.join(my_path, "../FilesAndInputs/mainCsv-thin.csv")
-
-        # file_name_thin = 'mainCsv-thin-1.csv'
-
-        df_fat = self.cluster_by_shows(file_name_fat)[['RunningTime', 'SumOfRunning', 'behaviourDistribution']]
-        df_fat['technologyRecomendation'] = 'T1'
-
-        df_thin = self.cluster_by_shows(file_name_thin)[['RunningTime', 'SumOfRunning', 'behaviourDistribution']]
-        df_thin['technologyRecomendation'] = 'T2'
-
-        final_df = pd.concat([df_fat, df_thin])
-        print(final_df)
-
-        df_result = final_df.groupby('RunningTime', as_index=False).apply(self.func).reset_index(drop=True)
-
-        df_result.to_csv('runningTimeDistribution.csv', index=False)
+    # def run(self):
+    #     predict = self.model.predict(self.df)
+    #     x = self.model.fit_predict(self.df)
+    #     self.df['behaviourDistribution'] = x
+    #     print(self.df)
+    #     self.df['D'] = 'D'
+    #
+    #     self.main_df['behaviourDistribution'] = self.df[['D', 'behaviourDistribution']].astype(str).sum(axis=1)
+    #     # main_df['behaviourDistribution'] = df['behaviourDistribution']
+    #     print(self.main_df)
+    #     # return self.main_df
+    #
+    #     my_path = os.path.abspath(os.path.dirname(__file__))
+    #
+    #     # experiment num 1
+    #     file_name_fat = os.path.join(my_path, '../FilesAndInputs/mainCsv-fat.csv')
+    #     file_name_thin = os.path.join(my_path, "../FilesAndInputs/mainCsv-thin.csv")
+    #
+    #     # file_name_thin = 'mainCsv-thin-1.csv'
+    #
+    #     df_fat = self.cluster_by_shows(file_name_fat)[['RunningTime', 'SumOfRunning', 'behaviourDistribution']]
+    #     df_fat['technologyRecomendation'] = 'T1'
+    #
+    #     df_thin = self.cluster_by_shows(file_name_thin)[['RunningTime', 'SumOfRunning', 'behaviourDistribution']]
+    #     df_thin['technologyRecomendation'] = 'T2'
+    #
+    #     final_df = pd.concat([df_fat, df_thin])
+    #     print(final_df)
+    #
+    #     df_result = final_df.groupby('RunningTime', as_index=False).apply(self.func).reset_index(drop=True)
+    #
+    #     df_result.to_csv('runningTimeDistribution.csv', index=False)
 
     def func(self, group):
         return group.loc[group['SumOfRunning'] == group['SumOfRunning'].min()]
@@ -146,10 +149,13 @@ class RandomKMeans:
         # range_n_clusters = [2, 3, 4, 5, 6]
 
         #self.model = KMeans(n_clusters=self.n_clusters_max)
-        self.model = KMeans(n_clusters=3)
-        #model.fit(df)
-        #predict = model.predict(df)
-        x = self.model.fit_predict(df)
+
+        if not hasattr(self, 'model'):
+            self.model = KMeans(n_clusters=3)
+            self.model.fit(df)
+
+        x = self.model.predict(df)
+
         df['behaviourDistribution'] = x
         print(df)
         df['D'] = 'D'
@@ -191,9 +197,10 @@ class RandomKMeans:
         print('get prediction time: ', time)
         #time = self.fixTimeNumber(time)
         print('fixed time: ', time)
-        my_path = os.path.abspath(os.path.dirname(__file__))
-        path = os.path.join(my_path, "../Methods/runningTimeDistribution.csv")
-        main_df = pd.read_csv(path)
+        #my_path = os.path.abspath(os.path.dirname(__file__))
+        #path = os.path.join(my_path, "../FileAndInputs/runningTimeDistribution.csv")
+        #main_df = pd.read_csv(path)
+        main_df = self.df_result
 
         df = pd.DataFrame(data={'A': [aCount], 'B': [bCount]})
 
@@ -202,6 +209,7 @@ class RandomKMeans:
 
         df['C'] = (df['A'] - df['B'])
         #df['C'] = (df['C'] - df['C'].min()) / (df['C'].max() - df['C'].min())
+        df['C'] = math.fabs(df['C'])
 
         df = df.drop(columns=['A', 'B'])
 
@@ -210,7 +218,11 @@ class RandomKMeans:
         res = main_df.loc[main_df['RunningTime'] == time]
 
         if value == res['behaviourDistribution'].values[0]:
-            return res['technologyRecomendation'].values[0]
+            new_res = main_df.loc[main_df['RunningTime'] == time + 1]
+            if new_res.empty:
+                return 'T2'
+            else:
+                return new_res['technologyRecomendation'].values[0]
         else:
             return 'T1'
         #
