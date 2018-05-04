@@ -133,17 +133,15 @@ class RandomKMeans:
 
 
         df = main_df[['A', 'B']]
-        df['A'] = (df['A'] - df['A'].min()) / df['A'].max() - df['A'].min()
-        df['B'] = (df['B'] - df['B'].min()) / df['B'].max() - df['B'].min()
-
-        df['C'] = (df['A'] - df['B'])
-        df['C'] = (df['C'] - df['C'].min()) / (df['C'].max() - df['C'].min())
-
-        print(df)
-
-        df = df.drop(columns=['A','B'])
+        # df['A'] = (df['A'] - df['A'].min()) / df['A'].max() - df['A'].min()
+        # df['B'] = (df['B'] - df['B'].min()) / df['B'].max() - df['B'].min()
+        #
+        # df['C'] = (df['A'] - df['B'])
+        # df['C'] = (df['C'] - df['C'].min()) / (df['C'].max() - df['C'].min())
 
         print(df)
+
+        # df = df.drop(columns=['A','B'])
         print(df.columns.values)
         range_n_clusters = [2, 3, 4, 5]
         # range_n_clusters = [2, 3, 4, 5, 6]
@@ -204,14 +202,14 @@ class RandomKMeans:
 
         df = pd.DataFrame(data={'A': [aCount], 'B': [bCount]})
 
-        df['A'] = (df['A'] - df['A'].min()) / df['A'].max() - df['A'].min()
-        df['B'] = (df['B'] - df['B'].min()) / df['B'].max() - df['B'].min()
-
-        df['C'] = (df['A'] - df['B'])
-        #df['C'] = (df['C'] - df['C'].min()) / (df['C'].max() - df['C'].min())
-        df['C'] = math.fabs(df['C'])
-
-        df = df.drop(columns=['A', 'B'])
+        # df['A'] = (df['A'] - df['A'].min()) / df['A'].max() - df['A'].min()
+        # df['B'] = (df['B'] - df['B'].min()) / df['B'].max() - df['B'].min()
+        #
+        # df['C'] = (df['A'] - df['B'])
+        # #df['C'] = (df['C'] - df['C'].min()) / (df['C'].max() - df['C'].min())
+        # df['C'] = math.fabs(df['C'])
+        #
+        # df = df.drop(columns=['A', 'B'])
 
         value = 'D' + str(self.model.predict(df)[0])
 
