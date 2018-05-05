@@ -149,7 +149,7 @@ class RandomKMeans:
         #self.model = KMeans(n_clusters=self.n_clusters_max)
 
         if not hasattr(self, 'model'):
-            self.model = KMeans(n_clusters=3)
+            self.model = KMeans(n_clusters=2)
             self.model.fit(df)
 
         x = self.model.predict(df)

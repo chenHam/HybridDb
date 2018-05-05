@@ -34,6 +34,11 @@ def main(name1,name2):
     df['QueryType'] = df['Query'].apply(lambda x: get_query_type(x))
     df = df[df.QueryType > -1]
     df = df[['StartTime', 'QueryType', 'RunTime']]
+    # pd.DatetimeIndex(df['StartTime']).date
+    # df['StartTime'] = pd.to_datetime(df['StartTime'])
+    # df['StartTime'] = df['StartTime'].apply(lambda x: x.replace(microsecond=0))
+    # df['StartTime'] = str(df['StartTime'])
+
     hours = df['StartTime'].unique()
     size = len(hours)
     hours.sort()
@@ -43,17 +48,17 @@ def main(name1,name2):
     end_date = hours[size-1]
     b = datetime.strptime(end_date, "%Y-%m-%d %H:%M:%S.%f")
     bM = b.minute+1
-    bSecond = b.replace(second=aS)
+    bSecond = b.replace(second=59)
 
     for dt in hours:
-       range = date_range(a, bSecond, 59, 'seconds')
+       range = date_range(a, bSecond, 60, 'seconds')
     range_size = len(range)-1
     i = 0
     for hour in hours:
         if(i<range_size):
             new_df = pd.DataFrame()
             df['StartTime'] = pd.to_datetime(df['StartTime'])
-            mask = (df['StartTime'] > range[i]) & (df['StartTime'] <= range[i+1])
+            mask = (df['StartTime'] >= range[i]) & (df['StartTime'] < range[i+1])
             # | df['StartTime'] == range[i])
             new_df = df.loc[mask]
             print(new_df)
