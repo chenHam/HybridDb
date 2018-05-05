@@ -42,3 +42,5 @@ def exponential(df):
                 column_values.append(sum)
                 i += 1
     return column_values
+
+main()
