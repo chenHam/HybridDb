@@ -9,7 +9,7 @@ from MyProject.Methods.random_k_means import RandomKMeans
 if __name__ == '__main__':
     print("Start to run main function")
     # CLEAN DB
-    cleanDb.clean()
+    #cleanDb.clean()
     # RUN HTTP QUERIES TO WINE CELLAR
     #runQueries.Run("3001")
     # GET FIRST LOGS
@@ -26,7 +26,7 @@ if __name__ == '__main__':
     #logs.Run("../FilesAndInputs/DataFrame_3001_smart_queries.csv")
     #mini.main("../FilesAndInputs/mainCsv-smart.csv","../FilesAndInputs/DataFrame_3001_smart_queries.csv")
     # CREATE A GRAPH
-    #getGraphs.main()
+    getGraphs.main()
     # CLUSTER
     # getCluster.Run()
     #x = RandomKMeans()
